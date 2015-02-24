@@ -5,3 +5,5 @@ First assignment for Software Arquitecture.
 #Costa PACOTES
 
 #FAZ COMMIT AS MERDAS CRL
+
+#JA CRL
