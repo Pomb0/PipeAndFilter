@@ -1,11 +1,10 @@
 # PipeAndFilter
 First assignment for Software Arquitecture.
 
+#Packages
 
-#Guilherme não cria o package, jaime já
-#Costa PACOTES
+	* FrameWork
+	* Templates
+	* Samples
+	* Filters
 
-#FAZ COMMIT AS MERDAS CRL
-
-#JA CRL
-#O JAIME QUER ME DAR O PACOTE.... FDS....
