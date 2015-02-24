@@ -1,4 +1,4 @@
 # PipeAndFilter
 First assignment for Software Arquitecture.
 
-#Guilherme cria o package
+#Guilherme não cria o package, jaime já
