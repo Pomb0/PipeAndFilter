@@ -128,11 +128,6 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		return EndOfInputStream(0);
 	}
 
-	/** TODO the index of the imput filters needs to be fixed
-	 * right now it doesn't make any sense.
-	 *
-	 *
-	 * */
 	protected boolean EndOfInputStream(int inputFilterId) {
 		FilterFramework inputFilter = inputFilters.get(inputFilterId);
 		if(inputFilter == null){
@@ -140,7 +135,6 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 			return false;
 		}
 		return !inputFilter.isAlive();
-
 	}
 
 }
