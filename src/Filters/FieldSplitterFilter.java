@@ -6,11 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-/**
- * Created by Jaime on 25/02/2015.
- */
 public class FieldSplitterFilter extends ExpandedFilterFramework{
-	private int outputCount;
 	private HashMap<Integer, List<Integer>> fieldDestiny; //Contains a list of fields, each containing a list of pipes!
 
 	public FieldSplitterFilter(List<List<Integer>> map) {  //Gets a list each representing a pipe, containing the contained fields.
@@ -50,7 +46,7 @@ public class FieldSplitterFilter extends ExpandedFilterFramework{
 				}
 
 				List<Integer> toPipes = this.fieldDestiny.get(id);
-                if(toPipes != null) /**TODO fix it */
+                if(toPipes != null)
 				for(Integer p : toPipes) {
 					for (i = 0; i < IdLength; i++) WriteFilterOutputPort(p, (byte) ((id >> ((7 - i) * 8)) & 0xff));
 					for (i = 0; i < MeasurementLength; i++) WriteFilterOutputPort(p, (byte) ((measurement >> ((7 - i) * 8)) & 0xff));
