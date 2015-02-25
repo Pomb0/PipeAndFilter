@@ -8,9 +8,3 @@ First assignment for Software Architecture.
 * Samples
 * Filters
 
-:smile:
-
-:poop:
-
-:trollface:
-
