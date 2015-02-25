@@ -1,6 +1,6 @@
-package Samples;
+package Samples.JTest;
 
-import Framework.FilterFramework;
+import Framework.ExpandedFilterFramework;
 
 /**
  * ***************************************************************************************************************
@@ -24,7 +24,7 @@ import Framework.FilterFramework;
  * ****************************************************************************************************************
  */
 
-public class MiddleFilter extends FilterFramework {
+public class MiddleFilter extends ExpandedFilterFramework {
 	public void run() {
 
 

@@ -16,23 +16,28 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 	@Override
 	public abstract void run();
 
+	@Override
+	public void Connect(FilterFramework Filter) {
+		Connect((ExpandedFilterFramework)Filter);
+	}
+
 	public void Connect(ExpandedFilterFramework filter) {
 		Connect(filter, 0);
 	}
-
 	public void Connect(ExpandedFilterFramework filter, int pipeId) {
 		PipedInputStream inputStream = new PipedInputStream();
 
 		try {
 			// Connect this filter's input to the upstream pipe's output stream
 			inputStream.connect(filter.getOutputWritePortForConnection(pipeId));
-			inputReadPorts.add(pipeId, inputStream);
+			inputReadPorts.add(inputStream);
 			inputFilters.add(filter);
 		} catch (Exception Error) {
 			System.out.println(this.getName() + " FilterFramework error connecting::" + Error);
 		}
 	}
 
+	@Override
 	protected byte ReadFilterInputPort() throws EndOfStreamException {
 		return ReadFilterInputPort(0);
 	}
@@ -41,7 +46,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		byte datum = 0;
 		PipedInputStream inputPort = inputReadPorts.get(pipeId);
 		try {
-			while (inputPort.available() == 0) {
+			while (inputPort != null && inputPort.available() == 0) {
 				if (EndOfInputStream()) {
 					throw new EndOfStreamException("End of input stream reached");
 				}
@@ -51,13 +56,13 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 			throw Error;
 		} catch (Exception Error) {
 			System.out.println("\n" + this.getName() + " Error in read port wait loop::" + Error);
+			System.out.println("FODEU: " + this.getClass().getCanonicalName());
 		}
 
 		try {
 			datum = (byte) inputPort.read();
 			return datum;
 		}catch (Exception Error) {
-			System.out.println("\n" + this.getName() + " Pipe read error::" + Error);
 			return datum;
 		}
 	}
@@ -72,6 +77,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		}
 	}
 
+	@Override
 	protected void WriteFilterOutputPort(byte datum) {
 		for(PipedOutputStream output : outputWritePorts) {
 			try {
@@ -97,6 +103,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		return outputStream;
 	}
 
+	@Override
 	protected void ClosePorts() { //Close input ports
 		for(PipedInputStream in : inputReadPorts) {
 			try {
@@ -105,6 +112,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 				System.out.println("\n" + this.getName() + " ClosePorts error::" + Error);
 			}
 		}
+		inputReadPorts.clear();
 		for(PipedOutputStream out : outputWritePorts) { //Close input ports
 			try {
 				out.close();
@@ -112,6 +120,29 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 				System.out.println("\n" + this.getName() + " ClosePorts error::" + Error);
 			}
 		}
+		outputWritePorts.clear();
+	}
+
+	@Override
+	protected boolean EndOfInputStream() {
+		return EndOfInputStream(0);
+	}
+
+	protected boolean EndOfInputStream(int inputFilterId) {
+		FilterFramework inputFilter = inputFilters.get(inputFilterId);
+		if(inputFilter == null){
+			System.out.println("ERROR CHECKING IF INPUT IS ALIVE");
+			return false;
+		}
+		if (inputFilter.isAlive()) {
+			return false;
+
+		} else {
+
+			return true;
+
+		} // if
+
 	}
 
 }

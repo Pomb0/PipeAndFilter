@@ -1,4 +1,4 @@
-package Samples; /**
+package Samples.JTest; /**
  * ***************************************************************************************************************
  * File:SourceFilter.java
  * Course: 17655
@@ -19,14 +19,14 @@ package Samples; /**
  * ****************************************************************************************************************
  */
 
-import Framework.FilterFramework;
+import Framework.ExpandedFilterFramework;
 
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class SourceFilter extends FilterFramework {
+public class SourceFilter extends ExpandedFilterFramework {
 	public void run() {
 
 		String fileName = "data/FlightData.dat";    // Input data file.
