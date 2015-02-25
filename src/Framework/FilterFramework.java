@@ -1,4 +1,4 @@
-package Framework; /**
+/**
  * ***************************************************************************************************************
  * File:FilterFramework.java
  * Course: 17655
@@ -35,6 +35,8 @@ package Framework; /**
  * <p/>
  * ****************************************************************************************************************
  */
+
+package Framework;
 
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
