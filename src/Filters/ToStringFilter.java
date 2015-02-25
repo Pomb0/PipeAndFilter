@@ -25,11 +25,11 @@ public class ToStringFilter extends FilterFramework{
         Calendar TimeStamp = Calendar.getInstance();
         SimpleDateFormat TimeStampFormat = new SimpleDateFormat("yyyy:MM:dd::hh:mm:ss");
 
-        StringBuilder finalFrame = new StringBuilder();
         long measurement;
 
         DecimalFormat df;
         String tempString;
+        String [] frameArray = {null, null, null, null, null};
 
         System.out.println(this.getName() + "::ToStringStarting ");
 
@@ -55,40 +55,33 @@ public class ToStringFilter extends FilterFramework{
 
                 switch (id) {
                     case (0):
-                        if(finalFrame.length() != 0) {
-                            finalFrame.append("\n");
-                            SendInfo(finalFrame.toString());
-                        }
-                        finalFrame = new StringBuilder();
                         TimeStamp.setTimeInMillis(measurement);
-                        tempString = TimeStampFormat.format(TimeStamp.getTime());
+                        frameArray[id] = TimeStampFormat.format(TimeStamp.getTime());
                         break;
                     case (1):
-                        tempString = String.valueOf(Double.longBitsToDouble(measurement));
+                        frameArray[id] = String.valueOf(Double.longBitsToDouble(measurement));
                         break;
                     case (2):
                         df = new DecimalFormat("000000.0000");
-                        tempString = df.format(Double.longBitsToDouble(measurement));
+                        frameArray[id] = df.format(Double.longBitsToDouble(measurement));
                         break;
                     case (3):
                         df = new DecimalFormat("00.0000");
-                        tempString = df.format(Double.longBitsToDouble(measurement));
+                        frameArray[id] = df.format(Double.longBitsToDouble(measurement));
                         break;
                     case (4):
                         df = new DecimalFormat("000.00000");
-                        tempString = df.format(Double.longBitsToDouble(measurement));
+                        frameArray[id] = df.format(Double.longBitsToDouble(measurement));
                         break;
                     case (5):
-                        tempString = String.valueOf(Double.longBitsToDouble(measurement));
+                        frameArray[id] = String.valueOf(Double.longBitsToDouble(measurement));
                         break;
                     default:
-                        tempString = " ? ";
-                        finalFrame.append(tempString);
+                        break;
                 }
 
-                if (CheckArrayForID(id)) {
-                    if (finalFrame.length() == 0) { finalFrame.append(tempString); }
-                    else { finalFrame.append("\t").append(tempString); }
+                if (id == 4) {
+                    SendInfo(ConcatString(frameArray));
                 }
 
             } catch (EndOfStreamException e) {
@@ -113,11 +106,22 @@ public class ToStringFilter extends FilterFramework{
         System.out.println(this.getName() + "::Sent " + byteswritten + " bytes " + "(" + bytesSoFar + ")");
     }
 
-    private boolean CheckArrayForID(int id) {
-        for (int anIdList : this.idList) {
-            if (anIdList == id) { return true; }
+    private String ConcatString(String[] finalArray) {
+        StringBuilder finalString = new StringBuilder();
+        String tmpString;
+
+
+        for (int i = 0 ; i < this.idList.length ; i++) {
+            tmpString = finalArray[this.idList[i]];
+            if(tmpString != null){
+                finalString.append(tmpString);
+                finalString.append("\t");
+            }
         }
-        return false;
+
+
+        finalString.append("\n");
+        return finalString.toString();
     }
 
 }
