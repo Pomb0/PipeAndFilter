@@ -1,11 +1,3 @@
-package Samples.CTest;
-
-import Filters.FileSinkFilter;
-import Filters.FileSourceFilter;
-import Filters.ToStringFilter;
-
-
-
 /**
  * ***************************************************************************************************************
  * File:Plumber.java
@@ -28,19 +20,27 @@ import Filters.ToStringFilter;
  * <p/>
  * ****************************************************************************************************************
  */
+
+package Samples.CTest;
+
+import Filters.*;
+
 public class CostaPlumer {
     public static void main(String argv[]) {
-        int[] array = {0, 4, 2};
+        int[] array = {0, 1, 2, 3, 4};
 
         FileSourceFilter Filter1 = new FileSourceFilter("data/FlightData.dat");
-        ToStringFilter Filter2 = new ToStringFilter(array);
-        FileSinkFilter Filter3 = new FileSinkFilter("data/data.dat");
+        HeightFilter Filter2 = new HeightFilter();
+        ToStringFilter Filter3 = new ToStringFilter(array);
+        FileSinkFilter Filter4 = new FileSinkFilter("data/data.dat");
 
+        Filter4.Connect(Filter3);
         Filter3.Connect(Filter2);
         Filter2.Connect(Filter1);
 
         Filter1.start();
         Filter2.start();
         Filter3.start();
+        Filter4.start();
     }
 }
