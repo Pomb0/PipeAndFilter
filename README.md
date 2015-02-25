@@ -3,9 +3,10 @@ First assignment for Software Arquitecture.
 
 #Packages
 
-	* FrameWork
-	* Templates
-	* Samples
-	* Filters
-    :bowtie:
-    人
+* FrameWork
+* Templates
+* Samples
+* Filters
+
+:smile:
+
