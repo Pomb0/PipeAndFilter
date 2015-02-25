@@ -15,41 +15,34 @@ public class FileReaderFilter extends FilterFramework{
     }
 
     public void run(){
-        int bytesread = 0;					// Number of bytes read from the input file.
-        int byteswritten = 0;				// Number of bytes written to the stream.
+        int bytesRead = 0;					// Number of bytes read from the input file.
+        int bytesWritten = 0;				// Number of bytes written to the stream.
         DataInputStream in = null;			// File stream reference.
-        byte databyte = 0;					// The byte of data read from the file
+        byte dataByte = 0;					// The byte of data read from the file
 
         try{
-
             in = new DataInputStream(new FileInputStream(this.dataPath));
-            System.out.println("\n" + this.getName() + "::Source reading file..." );
+            System.out.println(this.getName() + "::File Reader reading file..." );
 
             while(true){
-                databyte = in.readByte();
-                bytesread++;
-                WriteFilterOutputPort(databyte);
-                byteswritten++;
-
+                dataByte = in.readByte();
+                bytesRead++;
+                WriteFilterOutputPort(dataByte);
+                bytesWritten++;
             }
 
         }catch ( EOFException eoferr ){
-            System.out.println("\n" + this.getName() + "::End of file reached..." );
+            System.out.println(this.getName() + "::End of file reached..." );
             try{
                 in.close();
                 ClosePorts();
-                System.out.println( "\n" + this.getName() + "::Read file complete, bytes read::" + bytesread + " bytes written: " + byteswritten );
-
+                System.out.println(this.getName() + "::Read file complete, bytes read::" + bytesRead + " bytes written: " + bytesWritten );
             }catch (Exception closeerr){
-                System.out.println("\n" + this.getName() + "::Problem closing input data file::" + closeerr);
-
+                System.out.println(this.getName() + "::Problem closing input data file::" + closeerr);
             }
         }catch ( IOException iox ){
-            System.out.println("\n" + this.getName() + "::Problem reading input data file::" + iox );
-
+            System.out.println(this.getName() + "::Problem reading input data file::" + iox );
         }
-
     }
-
 }
 
