@@ -2,6 +2,7 @@ package Filters;
 
 import Framework.FilterFramework;
 
+import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,7 +26,7 @@ public class ToStringFilter extends FilterFramework{
 
         /************************/
         Calendar TimeStamp = Calendar.getInstance();
-        SimpleDateFormat TimeStampFormat = new SimpleDateFormat("yyyy MM dd::hh:mm:ss:SSS");
+        SimpleDateFormat TimeStampFormat = new SimpleDateFormat("yyyy:MM:dd::hh:mm:ss");
 
         StringBuilder finalFrame = new StringBuilder();
         long measurement;
@@ -106,6 +107,7 @@ public class ToStringFilter extends FilterFramework{
                 }
 
                 if (id == 5) {
+                    finalFrame.append("\n");
                     SendInfo(finalFrame.toString());
                 }
 
@@ -119,13 +121,15 @@ public class ToStringFilter extends FilterFramework{
     }
 
     private void SendInfo(String finalFrame) {
-        byte[] bytes = finalFrame.getBytes();
+        byte[] bytes = finalFrame.getBytes(Charset.forName("UTF-8"));
+
         int byteswritten = 0;                // Number of bytes written to the stream.
 
         System.out.print(this.getName() + "::Sending to Sink ");
 
         for(int i = 0 ; i < bytes.length ; i++){
             WriteFilterOutputPort(bytes[i]);
+            byteswritten++;
         }
 
         System.out.println("::Bytes written - " + byteswritten);
