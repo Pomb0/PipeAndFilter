@@ -26,12 +26,12 @@ package Samples; /**
  * ****************************************************************************************************************
  */
 
-import Framework.FilterFramework;
+import Framework.ExpandedFilterFramework;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class SinkFilter extends FilterFramework {
+public class SinkFilter extends ExpandedFilterFramework {
 	public void run() {
 		/************************************************************************************
 		 *	TimeStamp is used to compute time using java.util's Calendar class.

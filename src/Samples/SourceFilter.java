@@ -19,17 +19,17 @@ package Samples; /**
  * ****************************************************************************************************************
  */
 
-import Framework.FilterFramework;
+import Framework.ExpandedFilterFramework;
 
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class SourceFilter extends FilterFramework {
+public class SourceFilter extends ExpandedFilterFramework {
 	public void run() {
 
-		String fileName = "FlightData.dat";    // Input data file.
+		String fileName = "data/FlightData.dat";    // Input data file.
 		int bytesread = 0;                    // Number of bytes read from the input file.
 		int byteswritten = 0;                // Number of bytes written to the stream.
 		DataInputStream in = null;            // File stream reference.
