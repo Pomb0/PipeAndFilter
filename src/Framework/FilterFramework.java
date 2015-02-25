@@ -232,7 +232,7 @@ public class FilterFramework extends Thread {
 	 *
 	 ****************************************************************************/
 
-	private boolean EndOfInputStream() {
+	protected boolean EndOfInputStream() {
 		if (InputFilter.isAlive()) {
 			return false;
 
