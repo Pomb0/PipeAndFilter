@@ -9,114 +9,93 @@ import java.util.Calendar;
 
 public class ToStringFilter extends FilterFramework{
     private int [] idList;
+    private int bytesSoFar;
 
-    public ToStringFilter(int [] idList){
+    public ToStringFilter(int[] idList) {
         this.idList = idList;
     }
 
-    public void run(){
-        int MeasurementLength = 8;        // This is the length of all measurements (including time) in bytes
-        int IdLength = 4;                // This is the length of IDs in the byte stream
+    public void run() {
+        int measurementLength = 8;
+        int idLength = 4;
+        byte dataByte = 0;
+        int bytesRead = 0;
+        int id;
 
-        byte databyte = 0;                // This is the data byte read from the stream
-        int bytesread = 0;                // This is the number of bytes read from the stream
-
-        int id;                            // This is the measurement id
-        int i;                            // This is a loop counter
-
-        /************************/
         Calendar TimeStamp = Calendar.getInstance();
         SimpleDateFormat TimeStampFormat = new SimpleDateFormat("yyyy:MM:dd::hh:mm:ss");
 
-        StringBuilder finalFrame = new StringBuilder();
         long measurement;
 
         DecimalFormat df;
-        Double tempDouble;
-        String tempString;
-        /************************/
+        String [] frameArray = {null, null, null, null, null};
 
-        System.out.print(this.getName() + "::ToStringStarting ");
+        System.out.println(this.getName() + "::ToStringStarting ");
 
         while (true) {
+            id = 0;
+            measurement = 0;
             try {
-                id = 0;
+                for (int i = 0; i < idLength; i++) {
+                    dataByte = ReadFilterInputPort();
+                    id = id | (dataByte & 0xFF);
 
-                for (i = 0; i < IdLength; i++) {
-                    databyte = ReadFilterInputPort();    // This is where we read the byte from the stream...
-
-                    id = id | (databyte & 0xFF);        // We append the byte on to ID...
-
-                    if (i != IdLength - 1)                // If this is not the last byte, then slide the
-                    {                                    // previously appended byte to the left by one byte
-                        id = id << 8;                    // to make room for the next byte we append to the ID
-
-                    } // if
-
-                    bytesread++;                        // Increment the byte count
-
-                }
-                measurement = 0;
-
-                for (i = 0; i < MeasurementLength; i++) {
-                    databyte = ReadFilterInputPort();
-                    measurement = measurement | (databyte & 0xFF);    // We append the byte on to measurement...
-
-                    if (i != MeasurementLength - 1){                    // previously appended byte to the left by one byte
-                        measurement = measurement << 8;                // to make room for the next byte we append to the
-
-                    }
-                    bytesread++;                                    // Increment the byte count
-
+                    if (i != idLength - 1) { id = id << 8; }
+                    bytesRead++;
                 }
 
-                switch(id) {
+                for (int i = 0; i < measurementLength; i++) {
+                    dataByte = ReadFilterInputPort();
+                    measurement = measurement | (dataByte & 0xFF);
+
+                    if (i != measurementLength - 1) { measurement = measurement << 8; }
+                    bytesRead++;
+                }
+
+                switch (id) {
                     case (0):
+                        ResetArray(frameArray);
                         TimeStamp.setTimeInMillis(measurement);
-                        tempString = TimeStampFormat.format(TimeStamp.getTime());
+                        frameArray[id] = TimeStampFormat.format(TimeStamp.getTime());
                         break;
-                    case(1):
-                        tempString = String.valueOf(Double.longBitsToDouble(measurement));
+                    case (1):
+                        frameArray[id] = String.valueOf(Double.longBitsToDouble(measurement));
                         break;
-                    case(2):
+                    case (2):
                         df = new DecimalFormat("000000.0000");
-                        tempString =  df.format(Double.longBitsToDouble(measurement));
+                        frameArray[id] = df.format(Double.longBitsToDouble(measurement));
                         break;
-                    case(3):
+                    case (3):
                         df = new DecimalFormat("00.0000");
-                        tempString = df.format(Double.longBitsToDouble(measurement));
+                        frameArray[id] = df.format(Double.longBitsToDouble(measurement));
                         break;
-                    case(4):
+                    case (4):
                         df = new DecimalFormat("000.00000");
-                        tempString = df.format(Double.longBitsToDouble(measurement));
+                        frameArray[id] = df.format(Double.longBitsToDouble(measurement));
                         break;
-                    case(5):
-                        tempString = String.valueOf(Double.longBitsToDouble(measurement));
+                    case (5):
+                        frameArray[id] = String.valueOf(Double.longBitsToDouble(measurement));
                         break;
-
-                    default :
-                        tempString = " ? ";
+                    default:
+                        break;
                 }
 
-                if(CheckArrayForID(id) == true) {
-                    if(finalFrame.length() == 0) {
-                        finalFrame.append(tempString);
-                    }else {
-                        finalFrame.append("\t" + tempString);
-                    }
+                if (id == 4) {
+                    SendInfo(ConcatString(frameArray));
                 }
 
-                if (id == 5) {
-                    finalFrame.append("\n");
-                    SendInfo(finalFrame.toString());
-                }
-
-            }catch (EndOfStreamException e) {
+            } catch (EndOfStreamException e) {
                 ClosePorts();
-                System.out.print(this.getName() + "::ToString Exiting; bytes read: " + bytesread);
+                System.out.println(this.getName() + "::ToString Exiting; bytes read: " + bytesRead);
                 break;
 
             }
+        }
+    }
+
+    private void ResetArray(String[] frameArray) {
+        for(int i=0 ; i < frameArray.length; i++){
+            frameArray[i] = null;
         }
     }
 
@@ -125,25 +104,30 @@ public class ToStringFilter extends FilterFramework{
 
         int byteswritten = 0;                // Number of bytes written to the stream.
 
-        System.out.print(this.getName() + "::Sending to Sink ");
-
-        for(int i = 0 ; i < bytes.length ; i++){
-            WriteFilterOutputPort(bytes[i]);
+        for (byte aByte : bytes) {
+            WriteFilterOutputPort(aByte);
             byteswritten++;
+            bytesSoFar++;
         }
-
-        System.out.println("::Bytes written - " + byteswritten);
-
+        System.out.println(this.getName() + "::Sent " + byteswritten + " bytes " + "(" + bytesSoFar + ")");
     }
 
-    private boolean CheckArrayForID(int id) {
-        int i;
+    private String ConcatString(String[] finalArray) {
+        StringBuilder finalString = new StringBuilder();
+        String tmpString;
 
-        for(i = 0 ; i < this.idList.length; i++){
-            if(this.idList[i] == id)
-                return true;
+
+        for (int i = 0 ; i < this.idList.length ; i++) {
+            tmpString = finalArray[this.idList[i]];
+            if(tmpString != null){
+                finalString.append(tmpString);
+                finalString.append("\t");
+            }
         }
-        return false;
+
+
+        finalString.append("\n");
+        return finalString.toString();
     }
 
 }
