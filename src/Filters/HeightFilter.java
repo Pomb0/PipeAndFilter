@@ -57,7 +57,6 @@ public class HeightFilter extends ExpandedFilterFramework {
     }
 
     private double ConvertToMeters(double v) {
-        System.out.println(v);
         return v / 3.2808;
     }
 }

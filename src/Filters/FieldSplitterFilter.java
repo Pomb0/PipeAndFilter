@@ -50,9 +50,10 @@ public class FieldSplitterFilter extends ExpandedFilterFramework{
 				}
 
 				List<Integer> toPipes = this.fieldDestiny.get(id);
+                if(toPipes != null) /**TODO fix it */
 				for(Integer p : toPipes) {
 					for (i = 0; i < IdLength; i++) WriteFilterOutputPort(p, (byte) ((id >> ((7 - i) * 8)) & 0xff));
-					for (i = 0; i < MeasurementLength; i++) WriteFilterOutputPort(p, (byte) ((Double.doubleToLongBits(measurement) >> ((7 - i) * 8)) & 0xff));
+					for (i = 0; i < MeasurementLength; i++) WriteFilterOutputPort(p, (byte) ((measurement >> ((7 - i) * 8)) & 0xff));
 				}
 
 

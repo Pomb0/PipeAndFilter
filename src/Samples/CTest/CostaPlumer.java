@@ -25,22 +25,45 @@ package Samples.CTest;
 
 import Filters.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class CostaPlumer {
     public static void main(String argv[]) {
         int[] array = {0, 1, 2, 3, 4};
 
-        FileSourceFilter Filter1 = new FileSourceFilter("data/FlightData.dat");
-        HeightFilter Filter2 = new HeightFilter();
-        ToStringFilter Filter3 = new ToStringFilter(array);
-        FileSinkFilter Filter4 = new FileSinkFilter("data/data.dat");
+        List<List<Integer>> splitMap1 = Arrays.asList(
+                Arrays.asList(0, 2),
+                Arrays.asList(0, 4)
+        );
 
-        Filter4.Connect(Filter3);
-        Filter3.Connect(Filter2);
-        Filter2.Connect(Filter1);
+        FileSourceFilter source = new FileSourceFilter("data/FlightData.dat");
+        FieldSplitterFilter splitter = new FieldSplitterFilter(splitMap1);
+        
+        HeightFilter height = new HeightFilter();
+        TemperatureFilter temperature = new TemperatureFilter();
+        
+        ToStringFilter toString1 = new ToStringFilter(array);
+        FileSinkFilter sink1 = new FileSinkFilter("data/data1.dat");
 
-        Filter1.start();
-        Filter2.start();
-        Filter3.start();
-        Filter4.start();
+        ToStringFilter toString2 = new ToStringFilter(array);
+        FileSinkFilter sink2 = new FileSinkFilter("data/data2.dat");
+        
+        sink2.Connect(toString2);
+        sink1.Connect(toString1);
+        toString2.Connect(temperature);
+        toString1.Connect(height);
+        height.Connect(splitter, 0);
+        temperature.Connect(splitter, 1);
+        splitter.Connect(source);
+        
+        source.start();
+        splitter.start();
+        height.start();
+        temperature.start();
+        toString1.start();
+        toString2.start();
+        sink1.start();
+        sink2.start();
     }
 }
