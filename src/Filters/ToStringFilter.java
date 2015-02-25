@@ -1,36 +1,37 @@
 package Filters;
 
-import Framework.FilterFramework;
+import Framework.ExpandedFilterFramework;
 
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class ToStringFilter extends FilterFramework{
+public class ToStringFilter extends ExpandedFilterFramework {
     private int [] idList;
     private int bytesSoFar;
+    private String [] frameArray;
 
     public ToStringFilter(int[] idList) {
         this.idList = idList;
+        this.frameArray = new String[idList.length];
+        FrameArrayStart();
     }
 
     public void run() {
         int measurementLength = 8;
         int idLength = 4;
-        byte dataByte = 0;
-        int bytesRead = 0;
         int id;
+        long measurement;
+        byte dataByte;
+
+        DecimalFormat df;
+        String [] frameArray = {null, null, null, null, null, null};
 
         Calendar TimeStamp = Calendar.getInstance();
         SimpleDateFormat TimeStampFormat = new SimpleDateFormat("yyyy:MM:dd::hh:mm:ss");
 
-        long measurement;
-
-        DecimalFormat df;
-        String [] frameArray = {null, null, null, null, null};
-
-        System.out.println(this.getName() + "::ToStringStarting ");
+        System.out.println(this.getName() + "::ToString Filter Starting.");
 
         while (true) {
             id = 0;
@@ -39,22 +40,18 @@ public class ToStringFilter extends FilterFramework{
                 for (int i = 0; i < idLength; i++) {
                     dataByte = ReadFilterInputPort();
                     id = id | (dataByte & 0xFF);
-
                     if (i != idLength - 1) { id = id << 8; }
-                    bytesRead++;
                 }
 
                 for (int i = 0; i < measurementLength; i++) {
                     dataByte = ReadFilterInputPort();
                     measurement = measurement | (dataByte & 0xFF);
-
                     if (i != measurementLength - 1) { measurement = measurement << 8; }
-                    bytesRead++;
                 }
 
                 switch (id) {
                     case (0):
-                        ResetArray(frameArray);
+                        if(frameArray[0] != null) SendInfo(ConcatString(frameArray));
                         TimeStamp.setTimeInMillis(measurement);
                         frameArray[id] = TimeStampFormat.format(TimeStamp.getTime());
                         break;
@@ -80,29 +77,18 @@ public class ToStringFilter extends FilterFramework{
                         break;
                 }
 
-                if (id == 4) {
-                    SendInfo(ConcatString(frameArray));
-                }
-
             } catch (EndOfStreamException e) {
+                SendInfo(ConcatString(frameArray));
                 ClosePorts();
-                System.out.println(this.getName() + "::ToString Exiting; bytes read: " + bytesRead);
+                System.out.println(this.getName() + "::ToString Filter Exiting. Bytes read: " + bytesSoFar);
                 break;
-
             }
-        }
-    }
-
-    private void ResetArray(String[] frameArray) {
-        for(int i=0 ; i < frameArray.length; i++){
-            frameArray[i] = null;
         }
     }
 
     private void SendInfo(String finalFrame) {
         byte[] bytes = finalFrame.getBytes(Charset.forName("UTF-8"));
-
-        int byteswritten = 0;                // Number of bytes written to the stream.
+        int byteswritten = 0;
 
         for (byte aByte : bytes) {
             WriteFilterOutputPort(aByte);
@@ -116,18 +102,21 @@ public class ToStringFilter extends FilterFramework{
         StringBuilder finalString = new StringBuilder();
         String tmpString;
 
-
-        for (int i = 0 ; i < this.idList.length ; i++) {
-            tmpString = finalArray[this.idList[i]];
-            if(tmpString != null){
+        for (int anIdList : this.idList) {
+            tmpString = finalArray[anIdList];
+            if (tmpString != null) {
                 finalString.append(tmpString);
                 finalString.append("\t");
             }
         }
 
-
         finalString.append("\n");
         return finalString.toString();
     }
 
+    private void FrameArrayStart() {
+        for(int i = 0 ; i < frameArray.length ; i++){
+            frameArray[i] = null;
+        }
+    }
 }
