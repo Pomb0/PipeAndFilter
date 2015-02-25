@@ -10,9 +10,19 @@ import java.util.Calendar;
 public class ToStringFilter extends FilterFramework{
     private int [] idList;
     private int bytesSoFar;
+    private String [] frameArray;
+
 
     public ToStringFilter(int[] idList) {
         this.idList = idList;
+        this.frameArray = new String[idList.length];
+        FrameArrayStart();
+    }
+
+    private void FrameArrayStart() {
+        for(int i = 0 ; i < frameArray.length ; i++){
+            frameArray[i] = null;
+        }
     }
 
     public void run() {
@@ -28,7 +38,6 @@ public class ToStringFilter extends FilterFramework{
         long measurement;
 
         DecimalFormat df;
-        String [] frameArray = {null, null, null, null, null};
 
         System.out.println(this.getName() + "::ToStringStarting ");
 
