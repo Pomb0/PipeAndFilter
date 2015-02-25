@@ -1,12 +1,13 @@
 package Filters;
 
+import Framework.ExpandedFilterFramework;
 import Framework.FilterFramework;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class FileSinkFilter extends FilterFramework {
+public class FileSinkFilter extends ExpandedFilterFramework {
     private String dataPath;
 
     public FileSinkFilter(String dataPath) {
