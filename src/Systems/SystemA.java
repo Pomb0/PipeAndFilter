@@ -1,10 +1,10 @@
 package Systems;
 
-import Filters.FileReaderFilter;
+import Filters.FileSourceFilter;
 
 public class SystemA {
     public static void main(String args []){
-        FileReaderFilter dataReader = new FileReaderFilter("data/FlightData.dat");
+        FileSourceFilter dataReader = new FileSourceFilter("data/FlightData.dat");
         dataReader.start();
     }
 }

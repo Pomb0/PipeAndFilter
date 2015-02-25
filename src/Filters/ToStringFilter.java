@@ -2,6 +2,7 @@ package Filters;
 
 import Framework.FilterFramework;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -28,6 +29,9 @@ public class ToStringFilter extends FilterFramework{
 
         StringBuilder finalFrame = new StringBuilder();
         long measurement;
+
+        DecimalFormat df;
+        Double tempDouble;
         String tempString;
         /************************/
 
@@ -74,25 +78,35 @@ public class ToStringFilter extends FilterFramework{
                         tempString = String.valueOf(Double.longBitsToDouble(measurement));
                         break;
                     case(2):
-                        tempString = String.valueOf(Double.longBitsToDouble(measurement));
-                        String.format("%06d.%40d", tempString);
+                        df = new DecimalFormat("000000.0000");
+                        tempString =  df.format(Double.longBitsToDouble(measurement));
                         break;
                     case(3):
-                        tempString = String.valueOf(Double.longBitsToDouble(measurement));
-                        String.format("%02d:%40d%s" , tempString);
+                        df = new DecimalFormat("00.0000");
+                        tempString = df.format(Double.longBitsToDouble(measurement));
                         break;
                     case(4):
-                        tempString = String.valueOf(Double.longBitsToDouble(measurement));
-                        String.format("%03.%50" , tempString);
+                        df = new DecimalFormat("000.00000");
+                        tempString = df.format(Double.longBitsToDouble(measurement));
                         break;
+                    case(5):
+                        tempString = String.valueOf(Double.longBitsToDouble(measurement));
+                        break;
+
+                    default :
+                        tempString = " ? ";
                 }
 
                 if(CheckArrayForID(id) == true) {
-                    finalFrame.append(tempString);
+                    if(finalFrame.length() == 0) {
+                        finalFrame.append(tempString);
+                    }else {
+                        finalFrame.append("\t" + tempString);
+                    }
                 }
 
-                if (id == 4) {
-                    System.out.print(TimeStampFormat.format(TimeStamp.getTime()) + " ID = " + id + " " + Double.longBitsToDouble(measurement));
+                if (id == 5) {
+                    SendInfo(finalFrame.toString());
                 }
 
             }catch (EndOfStreamException e) {
@@ -102,6 +116,20 @@ public class ToStringFilter extends FilterFramework{
 
             }
         }
+    }
+
+    private void SendInfo(String finalFrame) {
+        byte[] bytes = finalFrame.getBytes();
+        int byteswritten = 0;                // Number of bytes written to the stream.
+
+        System.out.print(this.getName() + "::Sending to Sink ");
+
+        for(int i = 0 ; i < bytes.length ; i++){
+            WriteFilterOutputPort(bytes[i]);
+        }
+
+        System.out.println("::Bytes written - " + byteswritten);
+
     }
 
     private boolean CheckArrayForID(int id) {
