@@ -94,8 +94,8 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 	}
 
 	private PipedOutputStream getOutputWritePortForConnection(int pipeId){
-		if(pipeId > outputWritePorts.size()){ //Has to be continuously indexed, no sparse arrays plz.
-			System.out.println(this.getName() + " [ERROR] input connections must be indexed using continuous integers.");
+		if(pipeId != outputWritePorts.size()){ //Has to be continuously indexed, no sparse arrays plz.
+			System.out.println(this.getName() + " [ERROR] index repeated or not continuous!.");
 			return null;
 		}
 		PipedOutputStream outputStream = new PipedOutputStream();
@@ -128,20 +128,18 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		return EndOfInputStream(0);
 	}
 
+	/** TODO the index of the imput filters needs to be fixed
+	 * right now it doesn't make any sense.
+	 *
+	 *
+	 * */
 	protected boolean EndOfInputStream(int inputFilterId) {
 		FilterFramework inputFilter = inputFilters.get(inputFilterId);
 		if(inputFilter == null){
 			System.out.println("ERROR CHECKING IF INPUT IS ALIVE");
 			return false;
 		}
-		if (inputFilter.isAlive()) {
-			return false;
-
-		} else {
-
-			return true;
-
-		} // if
+		return !inputFilter.isAlive();
 
 	}
 
