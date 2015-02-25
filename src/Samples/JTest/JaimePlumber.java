@@ -1,5 +1,10 @@
 package Samples.JTest;
 
+import Filters.FieldSplitterFilter;
+
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * ***************************************************************************************************************
  * File:Plumber.java
@@ -28,10 +33,16 @@ public class JaimePlumber {
 		 * Here we instantiate three filters.
 		 ****************************************************************************/
 
+		List<List<Integer>> splitMap1 = Arrays.asList(
+			Arrays.asList(0,2),
+			Arrays.asList(4)
+		);
+
 		SourceFilter Filter1 = new SourceFilter();
 		MiddleFilter Filter2 = new MiddleFilter();
 		SinkFilter Filter3 = new SinkFilter();
 		SinkFilter Filter4 = new SinkFilter();
+		FieldSplitterFilter Splliter1 = new FieldSplitterFilter(splitMap1);
 
 		/****************************************************************************
 		 * Here we connect the filters starting with the sink filter (Filter 1) which
