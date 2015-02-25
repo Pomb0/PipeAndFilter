@@ -28,7 +28,6 @@ public class ToStringFilter extends FilterFramework{
         long measurement;
 
         DecimalFormat df;
-        String tempString;
         String [] frameArray = {null, null, null, null, null};
 
         System.out.println(this.getName() + "::ToStringStarting ");
@@ -55,6 +54,7 @@ public class ToStringFilter extends FilterFramework{
 
                 switch (id) {
                     case (0):
+                        ResetArray(frameArray);
                         TimeStamp.setTimeInMillis(measurement);
                         frameArray[id] = TimeStampFormat.format(TimeStamp.getTime());
                         break;
@@ -90,6 +90,12 @@ public class ToStringFilter extends FilterFramework{
                 break;
 
             }
+        }
+    }
+
+    private void ResetArray(String[] frameArray) {
+        for(int i=0 ; i < frameArray.length; i++){
+            frameArray[i] = null;
         }
     }
 
