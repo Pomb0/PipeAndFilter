@@ -4,10 +4,9 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
 public abstract class ExpandedFilterFramework extends FilterFramework{
-
-	protected PipedInputStream[] InputReadPort;
-	protected PipedOutputStream[] OutputWritePort;
-	protected FilterFramework[] InputFilter;
+	private PipedInputStream[] InputReadPorts;
+	private PipedOutputStream[] OutputWritePorts;
+	private FilterFramework[] InputFilters;
 
 	public ExpandedFilterFramework() {
 	}
