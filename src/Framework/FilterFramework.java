@@ -44,15 +44,15 @@ import java.io.PipedOutputStream;
 public class FilterFramework extends Thread {
 	// Define filter input and output ports
 
-	protected PipedInputStream InputReadPort = new PipedInputStream();
-	protected PipedOutputStream OutputWritePort = new PipedOutputStream();
+	private PipedInputStream InputReadPort = new PipedInputStream();
+	private PipedOutputStream OutputWritePort = new PipedOutputStream();
 
 	// The following reference to a filter is used because java pipes are able to reliably
 	// detect broken pipes on the input port of the filter. This variable will point to
 	// the previous filter in the network and when it dies, we know that it has closed its
 	// output pipe and will send no more data.
 
-	protected FilterFramework InputFilter;
+	private FilterFramework InputFilter;
 
 	/***************************************************************************
 	 * InnerClass:: EndOfStreamExeception
@@ -232,7 +232,7 @@ public class FilterFramework extends Thread {
 	 *
 	 ****************************************************************************/
 
-	protected boolean EndOfInputStream() {
+	private boolean EndOfInputStream() {
 		if (InputFilter.isAlive()) {
 			return false;
 
