@@ -7,10 +7,10 @@ import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class FileReaderFilter extends FilterFramework{
+public class FileSourceFilter extends FilterFramework{
     private String dataPath;
 
-    public FileReaderFilter(String dataPath){
+    public FileSourceFilter(String dataPath){
         this.dataPath = dataPath;
     }
 
@@ -18,7 +18,7 @@ public class FileReaderFilter extends FilterFramework{
         int bytesRead = 0;					// Number of bytes read from the input file.
         int bytesWritten = 0;				// Number of bytes written to the stream.
         DataInputStream in = null;			// File stream reference.
-        byte dataByte = 0;					// The byte of data read from the file
+        byte dataByte = 0;					// The byte of data read from the file.
 
         try{
             in = new DataInputStream(new FileInputStream(this.dataPath));
