@@ -10,5 +10,7 @@ First assignment for Software Arquitecture.
 
 :smile:
 
-= dog dirt
+:poop:
+
+:trollface:
 
