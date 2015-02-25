@@ -83,7 +83,8 @@ public class ToStringFilter extends FilterFramework{
                         break;
                     case(4):
                         tempString = String.valueOf(Double.longBitsToDouble(measurement));
-                        String.format("%02")
+                        String.format("%03.%50" , tempString);
+                        break;
                 }
 
                 if(CheckArrayForID(id) == true) {
