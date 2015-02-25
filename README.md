@@ -1,5 +1,5 @@
 # PipeAndFilter
-First assignment for Software Arquitecture.
+First assignment for Software Architecture.
 
 #Packages
 
