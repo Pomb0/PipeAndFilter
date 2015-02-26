@@ -36,7 +36,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 				filter();
 			} catch (EndOfStreamException e) {
 				ClosePorts();
-				System.out.println(this.getName() + "::" + this.getClass().getCanonicalName() + " Filter Exiting ");
+				System.out.println(this.getClass().getCanonicalName() + "::Closing...");
 				break;
 			}
 		}
@@ -59,7 +59,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 			inputBuffer.add(null);
 			inputFilters.add(filter);
 		} catch (Exception Error) {
-			System.out.println(this.getName() + " FilterFramework error connecting::" + Error);
+			System.out.println(this.getClass().getCanonicalName() + "::Problem connecting >>" + Error);
 		}
 	}
 
@@ -145,7 +145,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		}catch (EndOfStreamException Error) {
 			throw Error;
 		} catch (Exception Error) {
-			System.out.println(this.getName() + " Error in read port wait loop::" + Error);
+			System.out.println(this.getClass().getCanonicalName() + "::Problem reading port, wait loop >>" + Error);
 		}
 
 		try {
@@ -163,7 +163,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 				output.write((int) datum);
 				output.flush();
 			} catch (Exception Error) {
-				System.out.println("\n" + this.getName() + " Pipe write error::" + Error);
+				System.out.println(this.getClass().getCanonicalName() + "::Pipe write error >>" + Error);
 			}
 		}
 	}
@@ -186,7 +186,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 			return null;
 		}
 		PipedOutputStream outputStream = new PipedOutputStream();
-		outputWritePorts.add(pipeId, outputStream);
+        outputWritePorts.add(pipeId, outputStream);
 		return outputStream;
 	}
 
