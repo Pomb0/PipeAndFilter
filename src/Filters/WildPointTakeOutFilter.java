@@ -18,14 +18,15 @@ public class WildPointTakeOutFilter extends ExpandedFilterFramework{
         this.isFirst = true;
     }
 
-    public void filter() {
+    @Override
+    public void filter() throws EndOfStreamException {
 
         try{
             FrameBean frame = readFrame();
             AttributeBean pressure = frame.getAttribute(field);
             double tempPressure = pressure.getValueAsDouble();
 
-            if(tempPressure > 80 || tempPressure < 50){
+            if(frame.getAttribute(6) != null){
                 this.values.add(frame);
 
             }else{
@@ -40,9 +41,6 @@ public class WildPointTakeOutFilter extends ExpandedFilterFramework{
             if(!values.isEmpty()){   Dispatch(this.lastGoodValue);       }
             throw new EndOfStreamException("End of input stream reached");
         }
-
-
-
     }
 
     private void Dispatch(double tempPressure) {
