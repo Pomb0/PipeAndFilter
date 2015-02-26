@@ -1,7 +1,6 @@
 package Filters;
 
 import Framework.ExpandedFilterFramework;
-import Framework.FilterFramework;
 
 import java.io.DataInputStream;
 import java.io.EOFException;
