@@ -5,7 +5,7 @@ import Filters.*;
 import java.util.Arrays;
 import java.util.List;
 
-public class CostaPlumer {
+public class CostaPlumber {
     public static void main(String argv[]) {
         
         // Splitter configuration
