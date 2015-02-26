@@ -16,8 +16,6 @@ public class AttributeBean implements Serializable, Cloneable{
 	private byte[] key = new byte[KEYSIZE];
 	private byte[] value = new byte[VALUESIZE];
 
-   	//TODO add get as date function
-	
 	public int getKeyAsInt(){
         return ByteBuffer.wrap(key).getInt();
 	}
