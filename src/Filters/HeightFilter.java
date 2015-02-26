@@ -9,6 +9,7 @@ public class HeightFilter extends ExpandedFilterFramework {
 
     public HeightFilter(int field) { this.field = field; }
 
+    @Override
     public void filter() throws EndOfStreamException {
         FrameBean frame = readFrame();
 	    AttributeBean height = frame.getAttribute(field);

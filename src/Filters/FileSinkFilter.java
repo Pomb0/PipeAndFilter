@@ -9,10 +9,10 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class SinkFilter extends ExpandedFilterFramework {
+public class FileSinkFilter extends ExpandedFilterFramework {
     private String dataPath;
 
-    public SinkFilter(String dataPath) {
+    public FileSinkFilter(String dataPath) {
         this.dataPath = dataPath;
         try {
             FileWriter fw = new FileWriter(this.dataPath);
@@ -22,6 +22,7 @@ public class SinkFilter extends ExpandedFilterFramework {
         }
     }
 
+    @Override
     public void filter() throws EndOfStreamException {
         String frameString = frameToString(readFrame());
         try {
@@ -43,28 +44,29 @@ public class SinkFilter extends ExpandedFilterFramework {
             TimeStamp.setTimeInMillis(frame.getAttribute(0).getValueAsLong());
             frameString.append(TimeStampFormat.format(TimeStamp.getTime())).append("\t");
         }
-        if (frame.getAttribute(1) != null) {
-            frameString.append(String.valueOf(frame.getAttribute(1).getValueAsDouble())).append("\t");
-        }
-        if (frame.getAttribute(2) != null) {
-            df = new DecimalFormat("000000.0000");
-            frameString.append(df.format(frame.getAttribute(2).getValueAsDouble())).append("\t");
-        }
-        if (frame.getAttribute(3) != null) {
-            df = new DecimalFormat("00.0000");
-            frameString.append(df.format(frame.getAttribute(3).getValueAsDouble())).append("\t");
-        }
         if (frame.getAttribute(4) != null) {
             df = new DecimalFormat("000.00000");
             frameString.append(df.format(frame.getAttribute(4).getValueAsDouble())).append("\t");
         }
+        if (frame.getAttribute(2) != null) {
+            df = new DecimalFormat("000000.00000");
+            frameString.append(df.format(frame.getAttribute(2).getValueAsDouble())).append("\t");
+        }
+        if (frame.getAttribute(3) != null) {
+            df = new DecimalFormat("00.00000");
+            frameString.append(df.format(frame.getAttribute(3).getValueAsDouble()));
+            if (frame.getAttribute(6) != null) {
+                frameString.append("*");
+            }
+            frameString.append("\t");
+        }
+        if (frame.getAttribute(1) != null) {
+            frameString.append(String.valueOf(frame.getAttribute(1).getValueAsDouble())).append("\t");
+        }
         if (frame.getAttribute(5) != null) {
             frameString.append(String.valueOf(frame.getAttribute(5).getValueAsDouble())).append("\t");
         }
-        if (frame.getAttribute(6) != null) {
-            frameString.append(String.valueOf(frame.getAttribute(6).getValueAsDouble())).append("\t");
-        }
-        
+
         frameString.append("\n");
         return frameString.toString();
     }

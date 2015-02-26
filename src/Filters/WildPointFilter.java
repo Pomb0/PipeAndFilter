@@ -4,9 +4,14 @@ import Framework.ExpandedFilterFramework;
 import Framework.Stream.AttributeBean;
 import Framework.Stream.FrameBean;
 
-public class WildPointFilter extends ExpandedFilterFramework { 
-    private int field;
+public class WildPointFilter extends ExpandedFilterFramework {
+    private int field;  // 3
     private double min, max;
+
+    /**
+     * This filter requires the wild point logger to be connected to the pipe 0
+     * and the valid and interpolated points will be sent to the pipe 1
+     */
 
     public WildPointFilter(int field, double min, double max) {
         this.field = field;
@@ -17,22 +22,31 @@ public class WildPointFilter extends ExpandedFilterFramework {
     public void filter() throws EndOfStreamException {
         FrameBean frame = readFrame();
         AttributeBean attribute = frame.getAttribute(field);
-        
+
         if(attribute == null) {
             writeFrame(frame);
             return;
         }
-        
-        double psi = attribute.getValueAsDouble();
-        
-        if(psi < min || psi > max) {
-            attribute.setKey(6).setValue(1f);
-            frame.setAttribute(attribute);
-        } else {
-            attribute.setKey(6).setValue(0f);
-            frame.setAttribute(attribute);
+
+        double pressure = attribute.getValueAsDouble();
+        if(pressure < min || pressure > max) {
+            AttributeBean wild = new AttributeBean();
+            wild.setKey(6).setValue(1f);
+            frame.setAttribute(wild);
+            logWildPoint(frame);
         }
         
-        writeFrame(frame);
+        writeFrame(0, frame);
+    }
+
+    /**
+     * This functions sends the wild points to a specific pipe for logging!
+     */
+    
+    private void logWildPoint(FrameBean frame) {
+        FrameBean payLoadFrame = new FrameBean();
+        payLoadFrame.setAttribute(frame.getAttribute(0));
+        payLoadFrame.setAttribute(frame.getAttribute(field));
+        writeFrame(1, payLoadFrame);
     }
 }
