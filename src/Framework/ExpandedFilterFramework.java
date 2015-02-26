@@ -13,9 +13,32 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 	protected List<PipedOutputStream> outputWritePorts = new Vector<>();
 	protected List<FilterFramework> inputFilters = new Vector<>();
 	protected List<AttributeBean> inputBuffer = new Vector<>();
+	
+	
+	
+	/**
+	 * A custom implementation of the run method
+	 * delegates the filtering code to the filter method
+	 * while taking care of termination on EndOfStreamException
+	 * this change is completely optional and the run method can
+	 * still be overridden.
+	 */
+	
+	public void filter() throws EndOfStreamException{
+	};
 
 	@Override
-	public abstract void run();
+	public void run(){
+		while(true){
+			try {
+				filter();
+			} catch (EndOfStreamException e) {
+				ClosePorts();
+				System.out.println(this.getName() + "::" + this.getClass().getCanonicalName() + " Filter Exiting ");
+				break;
+			}
+		}
+	}
 
 	@Override
 	public void Connect(FilterFramework Filter) {
@@ -38,19 +61,26 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		}
 	}
 
-	protected FrameBean getFrame() throws EndOfStreamException{
-		return getFrame(0);
+	
+	protected FrameBean readFrame() throws EndOfStreamException{
+		return readFrame(0);
 	}
-	protected FrameBean getFrame(int pipeId) throws EndOfStreamException {
+	protected FrameBean readFrame(int pipeId) throws EndOfStreamException {
 		FrameBean frame = new FrameBean();
 		AttributeBean buffer = inputBuffer.get(pipeId);
+		inputBuffer.set(pipeId, null);
 		
 		if(buffer!=null) frame.setAttribute(buffer);
 		else frame.setAttribute(readAttribute(pipeId));
 		/* Assumes the first attribute in the pipe will be the id */
 		
 		do{
-			buffer = readAttribute(pipeId);
+			try {
+				buffer = readAttribute(pipeId);
+			} catch (EndOfStreamException e) {
+				frame.setAttribute(buffer);
+				return frame;
+			}
 			if(buffer.getKeyAsInt() != 0){
 				frame.setAttribute(buffer);
 			}else{
@@ -61,7 +91,6 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		
 		return frame;
 	}
-
 
 	protected AttributeBean readAttribute() throws EndOfStreamException {
 		return readAttribute(0);
@@ -75,6 +104,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		for(i=0;i<AttributeBean.KEYSIZE;i++) key[i] = ReadFilterInputPort(pipeId);
 		for(i=0;i<AttributeBean.VALUESIZE;i++) value[i] = ReadFilterInputPort(pipeId);
 		
+
 		return attrib;
 	}
 	
@@ -172,5 +202,5 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		}
 		return !inputFilter.isAlive();
 	}
-
+	
 }
