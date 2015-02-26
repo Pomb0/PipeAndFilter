@@ -17,7 +17,7 @@ public class FieldAggregatorFilter extends ExpandedFilterFramework{
 		for(int p = 0; p<inputReadPorts.size(); p++){
 			if(payLoadFrame == null) payLoadFrame = readFrame(p);
 			else{
-				frame = readFrame();
+				frame = readFrame(p);
 				attribMap = frame.getAttributeMap();
 				for(Map.Entry<Integer, AttributeBean> entry : attribMap.entrySet()){
 					payLoadFrame.setAttribute(entry.getValue());
