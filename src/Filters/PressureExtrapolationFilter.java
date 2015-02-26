@@ -5,13 +5,13 @@ import Framework.Stream.FrameBean;
 
 import java.util.LinkedList;
 
-public class WildPointTakeOutFilter extends ExpandedFilterFramework {
+public class PressureExtrapolationFilter extends ExpandedFilterFramework {
     private int field;  // 3
     private double lastGoodValue;
     private LinkedList<FrameBean> values;
     private boolean isFirst;
 
-    public WildPointTakeOutFilter(int field) {
+    public PressureExtrapolationFilter(int field) {
         this.field = field;
         this.values = new LinkedList<>();
         this.isFirst = true;

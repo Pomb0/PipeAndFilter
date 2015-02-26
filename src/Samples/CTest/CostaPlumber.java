@@ -29,7 +29,7 @@ public class CostaPlumber {
         FieldAggregatorFilter aggregator = new FieldAggregatorFilter();
         WildPointFilter wild = new WildPointFilter(3, 50, 80);
         FileSinkFilter logger = new FileSinkFilter("data/logger.dat");
-        WildPointTakeOutFilter takeOut = new WildPointTakeOutFilter(3);
+        PressureExtrapolationFilter takeOut = new PressureExtrapolationFilter(3);
         FileSinkFilter toString = new FileSinkFilter("data/dataTest.dat");
 
         // Connect Pipes
