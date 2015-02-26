@@ -1,5 +1,9 @@
 package Samples.JTest;
 
+import Filters.FieldSplitterFilter;
+import Filters.FileSinkFilter;
+import Filters.ToStringFilterNew;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,13 +40,25 @@ public class JaimePlumber {
 			Arrays.asList(4)
 		);
 
-		SourceFilter Filter1 = new SourceFilter();
-		JaimesTestFilter Filter2 = new JaimesTestFilter();
-		
-		Filter2.Connect(Filter1);
-		
-		Filter1.start();
-		Filter2.start();
+		SourceFilter source = new SourceFilter();
+		FieldSplitterFilter splitter = new FieldSplitterFilter(splitMap1);
+		ToStringFilterNew string1 = new ToStringFilterNew();
+		ToStringFilterNew string2 = new ToStringFilterNew();
+		FileSinkFilter file1 = new FileSinkFilter("data/out1.dat");
+		FileSinkFilter file2 = new FileSinkFilter("data/out2.dat");
+
+		splitter.Connect(source);
+		string1.Connect(splitter,0);
+		string2.Connect(splitter,1);
+		file1.Connect(string1);
+		file2.Connect(string2);
+
+		source.start();
+		splitter.start();
+		string1.start();
+		string2.start();
+		file1.start();
+		file2.start();
 
 
 	} // main
