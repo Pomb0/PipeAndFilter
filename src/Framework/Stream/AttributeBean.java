@@ -1,6 +1,7 @@
 package Framework.Stream;
 
 import java.io.Serializable;
+import java.nio.ByteBuffer;
 
 /**
  * Created by Jaime on 26/02/2015.
@@ -12,22 +13,20 @@ public class AttributeBean implements Serializable, Cloneable{
 
 	
 	public int getKeyAsInt(){
-		//TODO costa - returns key as an integer
-		return 0;
+        return ByteBuffer.wrap(key).getInt();
 	}
 
 	public double getValueAsDouble(){
-		//TODO costa - returns value as a double
-		return 0;
+		return ByteBuffer.wrap(key).getDouble();
 	}
 
 	public void setKey(int key) {
-		//TODO costa - convert int key to byte array this.key
+        this.key = ByteBuffer.allocate(4).putInt(key).array();
 	}
 
 
 	public void setValue(double value) {
-		//TODO costa - convert double value to byte array this.value
+        this.value = ByteBuffer.allocate(8).putDouble(value).array();
 	}
 
 

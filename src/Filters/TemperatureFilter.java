@@ -2,6 +2,8 @@ package Filters;
 
 import Framework.ExpandedFilterFramework;
 
+import java.nio.ByteBuffer;
+
 public class TemperatureFilter extends ExpandedFilterFramework {
     int field = 4;
     
@@ -40,7 +42,7 @@ public class TemperatureFilter extends ExpandedFilterFramework {
                         measurement = measurement | (dataByte & 0xFF);
                         if (i != measurementLength - 1) { measurement = measurement << 8; }
                     }
-                    FilterDispatcher(ConvertToCelsius(Double.longBitsToDouble(measurement)));
+                    FilterDispatcher(field, Double.doubleToLongBits(ConvertToCelsius(Double.longBitsToDouble(measurement))));
                 }
             } catch (EndOfStreamException e) {
                 ClosePorts();
@@ -50,14 +52,19 @@ public class TemperatureFilter extends ExpandedFilterFramework {
         }
     }
 
-    private void FilterDispatcher(double value) {
-        for(int i = 0 ; i < 4 ; i++){ WriteFilterOutputPort((byte)((field >> ((7 - i) * 8)) & 0xff)); }
-        for(int i = 0; i < 8; i++) {
-            WriteFilterOutputPort((byte)((Double.doubleToLongBits(value) >> ((7 - i) * 8)) & 0xff));
-        }
+    private void FilterDispatcher( int id, long value) {
+        byte[] bytes = ByteBuffer.allocate(4).putInt(id).array();
+        for(byte aByte : bytes) WriteFilterOutputPort(aByte);
+        
+        System.out.println(ByteBuffer.wrap(bytes).getInt());
+        
+        bytes = ByteBuffer.allocate(8).putLong(value).array();
+        for(byte aByte : bytes) WriteFilterOutputPort(aByte);
+
+        System.out.println(ByteBuffer.wrap(bytes).getDouble());
     }
 
     private double ConvertToCelsius(double v) {
-        return (v - 32) / 1.8;
+        return ((v - 32) / 1.8);
     }
 }
