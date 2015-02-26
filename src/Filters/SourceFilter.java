@@ -31,11 +31,11 @@ public class SourceFilter extends ExpandedFilterFramework{
                 ClosePorts();
                 dis.close();
             } catch (IOException e1) {
-                System.out.println(this.getClass().getCanonicalName() + "::Problem closing source file...");
+                System.out.println(this.getClass().getCanonicalName() + "::Problem closing source file >>" + e1);
             }
 
         } catch (IOException iox) {
-            System.out.println(this.getClass().getCanonicalName() + "::Problem reading source file...");
+            System.out.println(this.getClass().getCanonicalName() + "::Problem reading source file >>" + iox);
         }
     }
 }

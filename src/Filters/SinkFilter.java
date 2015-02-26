@@ -18,7 +18,7 @@ public class SinkFilter extends ExpandedFilterFramework {
             FileWriter fw = new FileWriter(this.dataPath);
             fw.close();
         } catch (IOException e) {
-            System.out.println(this.getClass().getCanonicalName() + "::Problem truncating " + dataPath);
+            System.out.println(this.getClass().getCanonicalName() + "::Problem truncating " + dataPath + " >>" + e);
         }
     }
 
@@ -29,7 +29,7 @@ public class SinkFilter extends ExpandedFilterFramework {
             fw.write(frameString);
             fw.close();
         } catch (IOException e) {
-            System.out.println(this.getClass().getCanonicalName() + "::Problem writing to " + dataPath);
+            System.out.println(this.getClass().getCanonicalName() + "::Problem writing to " + dataPath + " >>" + e);
         }
     }
 

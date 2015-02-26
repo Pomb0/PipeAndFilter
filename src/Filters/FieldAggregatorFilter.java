@@ -7,9 +7,6 @@ import Framework.Stream.FrameBean;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Created by Jaime on 26/02/2015.
- */
 public class FieldAggregatorFilter extends ExpandedFilterFramework{
 	@Override
 	public void filter() throws EndOfStreamException {
