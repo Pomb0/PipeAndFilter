@@ -9,6 +9,7 @@ public class TemperatureFilter extends ExpandedFilterFramework {
 
     public TemperatureFilter(int field) { this.field = field; }
 
+    @Override
     public void filter() throws EndOfStreamException {
         FrameBean frame = readFrame();
         AttributeBean temperature = frame.getAttribute(field);

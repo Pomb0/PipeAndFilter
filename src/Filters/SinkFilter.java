@@ -22,6 +22,7 @@ public class SinkFilter extends ExpandedFilterFramework {
         }
     }
 
+    @Override
     public void filter() throws EndOfStreamException {
         String frameString = frameToString(readFrame());
         try {
