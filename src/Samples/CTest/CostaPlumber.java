@@ -10,7 +10,7 @@ public class CostaPlumber {
         
         // 00 - Time
         // 01 - Speed
-        // 02 - Height
+        // 02 - Altitude
         // 03 - Pressure
         // 04 - Temperature
         // 05 - Pitch
@@ -25,7 +25,7 @@ public class CostaPlumber {
         FileSourceFilter source = new FileSourceFilter("data/FlightData.dat");
         FieldSplitterFilter splitter = new FieldSplitterFilter(splitMap1);
         TemperatureFilter temperature = new TemperatureFilter(4);
-        HeightFilter height = new HeightFilter(2);
+        AltitudeFilter height = new AltitudeFilter(2);
         FieldAggregatorFilter aggregator = new FieldAggregatorFilter();
         WildPointFilter wild = new WildPointFilter(3, 50, 80);
         FileSinkFilter logger = new FileSinkFilter("data/logger.dat");

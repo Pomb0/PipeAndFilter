@@ -4,10 +4,10 @@ import Framework.ExpandedFilterFramework;
 import Framework.Stream.AttributeBean;
 import Framework.Stream.FrameBean;
 
-public class HeightFilter extends ExpandedFilterFramework {
+public class AltitudeFilter extends ExpandedFilterFramework {
     private int field;  // 2
 
-    public HeightFilter(int field) { this.field = field; }
+    public AltitudeFilter(int field) { this.field = field; }
 
     @Override
     public void filter() throws EndOfStreamException {
