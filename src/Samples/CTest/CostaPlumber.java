@@ -14,7 +14,7 @@ public class CostaPlumber {
         // 03 - Pressure
         // 04 - Temperature
         // 05 - Pitch
-        
+        /*
         // Splitter configuration
         List<List<Integer>> splitMap1 = Arrays.asList(
                 Arrays.asList(2, 3),
@@ -49,6 +49,15 @@ public class CostaPlumber {
         aggregator.start();
         wild.start();
         toString.start();
-        logger.start();
+        logger.start();*/
+
+        FileSourceFilter source = new FileSourceFilter("data/FlightData.dat");
+        RawFileSinkFilter fileSinkFilter = new RawFileSinkFilter("data/FlightDataN.dat");
+
+        fileSinkFilter.Connect(source);
+
+        source.start();
+        fileSinkFilter.start();
+        
     }
 }
