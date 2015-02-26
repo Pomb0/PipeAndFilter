@@ -55,16 +55,13 @@ public class TemperatureFilter extends ExpandedFilterFramework {
     private void FilterDispatcher( int id, long value) {
         byte[] bytes = ByteBuffer.allocate(4).putInt(id).array();
         for(byte aByte : bytes) WriteFilterOutputPort(aByte);
-        
-        System.out.println(ByteBuffer.wrap(bytes).getInt());
-        
         bytes = ByteBuffer.allocate(8).putLong(value).array();
         for(byte aByte : bytes) WriteFilterOutputPort(aByte);
 
-        System.out.println(ByteBuffer.wrap(bytes).getDouble());
     }
 
     private double ConvertToCelsius(double v) {
+        System.out.println(v);
         return ((v - 32) / 1.8);
     }
 }

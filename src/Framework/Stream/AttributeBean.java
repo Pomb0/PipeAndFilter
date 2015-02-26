@@ -26,14 +26,21 @@ public class AttributeBean implements Serializable, Cloneable{
 		return ByteBuffer.wrap(value).getDouble();
 	}
 
+    public long getValueAsLong(){
+        return ByteBuffer.wrap(value).getLong();
+    }
+
 	public void setKey(int key) {
         this.key = ByteBuffer.allocate(KEYSIZE).putInt(key).array();
 	}
 
-
 	public void setValue(double value) {
         this.value = ByteBuffer.allocate(VALUESIZE).putDouble(value).array();
 	}
+
+    public void setValue(long value) {
+        this.value = ByteBuffer.allocate(VALUESIZE).putLong(value).array();
+    }
 
 
 

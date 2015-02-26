@@ -88,14 +88,11 @@ public class ToStringFilter extends ExpandedFilterFramework {
 
     private void SendInfo(String finalFrame) {
         byte[] bytes = finalFrame.getBytes(Charset.forName("UTF-8"));
-        int byteswritten = 0;
 
         for (byte aByte : bytes) {
             WriteFilterOutputPort(aByte);
-            byteswritten++;
             bytesSoFar++;
         }
-        System.out.println(this.getName() + "::Sent " + byteswritten + " bytes " + "(" + bytesSoFar + ")");
     }
 
     private String ConcatString(String[] finalArray) {

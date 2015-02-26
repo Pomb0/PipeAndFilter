@@ -10,7 +10,6 @@ import Framework.Stream.FrameBean;
 public class JaimesTestFilter extends ExpandedFilterFramework {
 	public void filter() throws EndOfStreamException {
 		FrameBean frame;
-		AttributeBean attrib;
 		frame = readFrame();
 		System.out.println(">> " + frame.getAttribute(2).getValueAsDouble() + " : " + frame.getAttribute(3).getValueAsDouble());
 	}
