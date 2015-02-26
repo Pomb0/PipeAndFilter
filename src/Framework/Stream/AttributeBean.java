@@ -13,53 +13,53 @@ public class AttributeBean implements Serializable, Cloneable{
 	public static final int KEYSIZE = 4;
 	public static final int VALUESIZE = 8;
 	
-	private byte[] key = new byte[KEYSIZE];
-	private byte[] value = new byte[VALUESIZE];
+	private ByteBuffer key = ByteBuffer.allocate(KEYSIZE);
+	private ByteBuffer value = ByteBuffer.allocate(VALUESIZE);
 
 	public int getKeyAsInt(){
-        return ByteBuffer.wrap(key).getInt();
+        return key.getInt();
 	}
 
 	public double getValueAsDouble(){
-		return ByteBuffer.wrap(value).getDouble();
+		return value.getDouble();
 	}
 
     public long getValueAsLong(){
-        return ByteBuffer.wrap(value).getLong();
+        return value.getLong();
     }
 
 	public AttributeBean setKey(int key) {
-        this.key = ByteBuffer.allocate(KEYSIZE).putInt(key).array();
+        this.key.putInt(key);
 		return this;
 	}
 
 	public AttributeBean setValue(double value) {
-        this.value = ByteBuffer.allocate(VALUESIZE).putDouble(value).array();
+        this.value.putDouble(value);
 		return this;
 	}
 
     public AttributeBean setValue(long value) {
-        this.value = ByteBuffer.allocate(VALUESIZE).putLong(value).array();
+        this.value.putLong(value);
 	    return this;
     }
 
 
 
 	public byte[] getKey() {
-		return key;
+		return key.array();
 	}
 
 	public AttributeBean setKey(byte[] key) {
-		this.key = key.clone();
+		this.key.put(key);
 		return this;
 	}
 
 	public byte[] getValue() {
-		return value;
+		return value.array();
 	}
 
 	public AttributeBean setValue(byte[] value) {
-		this.value = value.clone();
+		this.value.put(value);
 		return this;
 	}
 }
