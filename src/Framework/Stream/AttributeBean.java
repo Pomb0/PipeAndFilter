@@ -17,15 +17,15 @@ public class AttributeBean implements Serializable, Cloneable{
 	private ByteBuffer value = ByteBuffer.allocate(VALUESIZE);
 
 	public int getKeyAsInt(){
-        return key.getInt();
+        return key.getInt(0);
 	}
 
 	public double getValueAsDouble(){
-		return value.getDouble();
+		return value.getDouble(0);
 	}
 
     public long getValueAsLong(){
-        return value.getLong();
+        return value.getLong(0);
     }
 
 	public AttributeBean setKey(int key) {
