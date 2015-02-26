@@ -9,8 +9,8 @@ public class WildPointFilter extends ExpandedFilterFramework {
     private double min, max;
 
     /**
-     * This filter requires the wild point logger to be connected to the pipe 0
-     * and the valid and interpolated points will be sent to the pipe 1
+     * This filter requires the wild point logger to be connected to the pipe 1
+     * and the valid and interpolated points will be sent to the pipe 0
      */
 
     public WildPointFilter(int field, double min, double max) {

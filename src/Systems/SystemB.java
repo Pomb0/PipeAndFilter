@@ -20,7 +20,7 @@ public class SystemB {
          * If the last values are rejected, they will be replaced by the last accepted value.
          * The rejected measurements will be logged to a file.
          * Finally the extrapolated and the accepted files will be saved to a text file.
-         * The extrapolated measurements will preced a *.
+         * The extrapolated measurements will precede an *.
          * All other measures are filtered and finally the output is whiten to a file as text.
          */
 
