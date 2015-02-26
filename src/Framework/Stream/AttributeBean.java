@@ -7,8 +7,14 @@ import java.nio.ByteBuffer;
  * Created by Jaime on 26/02/2015.
  */
 public class AttributeBean implements Serializable, Cloneable{
-	private byte[] key = new byte[4];
-	private byte[] value = new byte[8];
+	/**
+	 * Constants to avoid magic values.
+	 */
+	public static final int KEYSIZE = 4;
+	public static final int VALUESIZE = 8;
+	
+	private byte[] key = new byte[KEYSIZE];
+	private byte[] value = new byte[VALUESIZE];
 
 
 	
@@ -21,12 +27,12 @@ public class AttributeBean implements Serializable, Cloneable{
 	}
 
 	public void setKey(int key) {
-        this.key = ByteBuffer.allocate(4).putInt(key).array();
+        this.key = ByteBuffer.allocate(KEYSIZE).putInt(key).array();
 	}
 
 
 	public void setValue(double value) {
-        this.value = ByteBuffer.allocate(8).putDouble(value).array();
+        this.value = ByteBuffer.allocate(VALUESIZE).putDouble(value).array();
 	}
 
 
@@ -36,7 +42,7 @@ public class AttributeBean implements Serializable, Cloneable{
 	}
 
 	public void setKey(byte[] key) {
-		this.key = key;
+		this.key = key.clone();
 	}
 
 	public byte[] getValue() {
@@ -44,6 +50,6 @@ public class AttributeBean implements Serializable, Cloneable{
 	}
 
 	public void setValue(byte[] value) {
-		this.value = value;
+		this.value = value.clone();
 	}
 }
