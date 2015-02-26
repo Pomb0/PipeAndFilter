@@ -70,11 +70,11 @@ public class FilterFramework extends Thread {
 
 	protected class EndOfStreamException extends Exception {
 
-		EndOfStreamException() {
+		public EndOfStreamException() {
 			super();
 		}
 
-		EndOfStreamException(String s) {
+		public EndOfStreamException(String s) {
 			super(s);
 		}
 

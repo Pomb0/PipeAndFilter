@@ -7,18 +7,39 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
+/**
+ * Created by Jaime on 26/02/2015.
+ */
 public class ZipperFilter extends ExpandedFilterFramework{
+	@Override
 	public void filter() throws EndOfStreamException {
 		int i,p;
 		int size = inputReadPorts.size();
+		FrameBean frame;
 		LinkedList<Integer> pipes = new LinkedList<>();
 		PriorityQueue<FrameBean> queue = new PriorityQueue<FrameBean>(size, new ChronologicalFrameComparator());
 		for(i=0;i<inputReadPorts.size();i++) pipes.push(i);
 
+		i = 0;
 		while(!pipes.isEmpty()){
-		//TODO Finish this fucking shit :p
-		}
+			p = pipes.pop();
+			try{
+				frame = readFrame(p);
+				queue.add(frame);
+				i++;
+				pipes.addLast(p);
+			}catch (EndOfStreamException exception){
+				size--;
+			}
 
+			if(i>=size){ //Read one from each, read all pipes!
+				i = 0;
+				frame = queue.remove();
+				writeFrame(frame);
+			}
+		}
+		while(!queue.isEmpty()) writeFrame(queue.remove());
+		throw new EndOfStreamException("End of input stream reached");
 	}
 }
 
