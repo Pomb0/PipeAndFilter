@@ -44,28 +44,29 @@ public class FileSinkFilter extends ExpandedFilterFramework {
             TimeStamp.setTimeInMillis(frame.getAttribute(0).getValueAsLong());
             frameString.append(TimeStampFormat.format(TimeStamp.getTime())).append("\t");
         }
-        if (frame.getAttribute(1) != null) {
-            frameString.append(String.valueOf(frame.getAttribute(1).getValueAsDouble())).append("\t");
-        }
-        if (frame.getAttribute(2) != null) {
-            df = new DecimalFormat("000000.0000");
-            frameString.append(df.format(frame.getAttribute(2).getValueAsDouble())).append("\t");
-        }
-        if (frame.getAttribute(3) != null) {
-            df = new DecimalFormat("00.0000");
-            frameString.append(df.format(frame.getAttribute(3).getValueAsDouble())).append("\t");
-        }
         if (frame.getAttribute(4) != null) {
             df = new DecimalFormat("000.00000");
             frameString.append(df.format(frame.getAttribute(4).getValueAsDouble())).append("\t");
         }
+        if (frame.getAttribute(2) != null) {
+            df = new DecimalFormat("000000.00000");
+            frameString.append(df.format(frame.getAttribute(2).getValueAsDouble())).append("\t");
+        }
+        if (frame.getAttribute(3) != null) {
+            df = new DecimalFormat("00.00000");
+            frameString.append(df.format(frame.getAttribute(3).getValueAsDouble()));
+            if (frame.getAttribute(6) != null) {
+                frameString.append("*");
+            }
+            frameString.append("\t");
+        }
+        if (frame.getAttribute(1) != null) {
+            frameString.append(String.valueOf(frame.getAttribute(1).getValueAsDouble())).append("\t");
+        }
         if (frame.getAttribute(5) != null) {
             frameString.append(String.valueOf(frame.getAttribute(5).getValueAsDouble())).append("\t");
         }
-        if (frame.getAttribute(6) != null) {
-            frameString.append(String.valueOf(frame.getAttribute(6).getValueAsDouble())).append("\t");
-        }
-        
+
         frameString.append("\n");
         return frameString.toString();
     }
