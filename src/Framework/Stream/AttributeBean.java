@@ -30,16 +30,19 @@ public class AttributeBean implements Serializable, Cloneable{
         return ByteBuffer.wrap(value).getLong();
     }
 
-	public void setKey(int key) {
+	public AttributeBean setKey(int key) {
         this.key = ByteBuffer.allocate(KEYSIZE).putInt(key).array();
+		return this;
 	}
 
-	public void setValue(double value) {
+	public AttributeBean setValue(double value) {
         this.value = ByteBuffer.allocate(VALUESIZE).putDouble(value).array();
+		return this;
 	}
 
-    public void setValue(long value) {
+    public AttributeBean setValue(long value) {
         this.value = ByteBuffer.allocate(VALUESIZE).putLong(value).array();
+	    return this;
     }
 
 
@@ -48,15 +51,17 @@ public class AttributeBean implements Serializable, Cloneable{
 		return key;
 	}
 
-	public void setKey(byte[] key) {
+	public AttributeBean setKey(byte[] key) {
 		this.key = key.clone();
+		return this;
 	}
 
 	public byte[] getValue() {
 		return value;
 	}
 
-	public void setValue(byte[] value) {
+	public AttributeBean setValue(byte[] value) {
 		this.value = value.clone();
+		return this;
 	}
 }
