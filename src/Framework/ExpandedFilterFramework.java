@@ -29,7 +29,8 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 
 		try {
 			// Connect this filter's input to the upstream pipe's output stream
-			inputStream.connect(filter.getOutputWritePortForConnection(pipeId));
+			try{inputStream.connect(filter.getOutputWritePortForConnection(pipeId));}
+			catch (NullPointerException exception){System.out.println(this.getName() + " FilterFramework error connecting::" + exception.getMessage());}
 			inputReadPorts.add(inputStream);
 			inputFilters.add(filter);
 		} catch (Exception Error) {
@@ -55,8 +56,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		}catch (EndOfStreamException Error) {
 			throw Error;
 		} catch (Exception Error) {
-			System.out.println("\n" + this.getName() + " Error in read port wait loop::" + Error);
-			System.out.println("FODEU: " + this.getClass().getCanonicalName());
+			System.out.println(this.getName() + " Error in read port wait loop::" + Error);
 		}
 
 		try {
@@ -109,7 +109,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 			try {
 				in.close();
 			} catch (Exception Error) {
-				System.out.println("\n" + this.getName() + " ClosePorts error::" + Error);
+				System.out.println(this.getName() + " ClosePorts error::" + Error);
 			}
 		}
 		inputReadPorts.clear();
