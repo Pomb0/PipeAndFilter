@@ -29,17 +29,17 @@ public class AttributeBean implements Serializable, Cloneable{
     }
 
 	public AttributeBean setKey(int key) {
-        this.key.putInt(key);
+        this.key.putInt(0, key);
 		return this;
 	}
 
 	public AttributeBean setValue(double value) {
-        this.value.putDouble(value);
+        this.value.putDouble(0, value);
 		return this;
 	}
 
     public AttributeBean setValue(long value) {
-        this.value.putLong(value);
+        this.value.putLong(0, value);
 	    return this;
     }
 
@@ -50,7 +50,7 @@ public class AttributeBean implements Serializable, Cloneable{
 	}
 
 	public AttributeBean setKey(byte[] key) {
-		this.key.put(key);
+		this.key = ByteBuffer.wrap(key.clone());
 		return this;
 	}
 
@@ -59,7 +59,7 @@ public class AttributeBean implements Serializable, Cloneable{
 	}
 
 	public AttributeBean setValue(byte[] value) {
-		this.value.put(value);
+		this.value = ByteBuffer.wrap(value.clone());
 		return this;
 	}
 }
