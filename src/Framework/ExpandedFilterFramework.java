@@ -58,8 +58,8 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 			inputReadPorts.add(inputStream);
 			inputBuffer.add(null);
 			inputFilters.add(filter);
-		} catch (Exception Error) {
-			System.out.println(this.getClass().getCanonicalName() + "::Problem connecting >>" + Error);
+		} catch (Exception e) {
+			System.out.println(this.getClass().getCanonicalName() + "::Problem connecting >>" + e);
 		}
 	}
 
@@ -144,8 +144,8 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 			}
 		}catch (EndOfStreamException Error) {
 			throw Error;
-		} catch (Exception Error) {
-			System.out.println(this.getClass().getCanonicalName() + "::Problem reading port, wait loop >>" + Error);
+		} catch (Exception e) {
+			System.out.println(this.getClass().getCanonicalName() + "::Problem reading port, wait loop >>" + e);
 		}
 
 		try {
@@ -162,8 +162,8 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 			try {
 				output.write((int) datum);
 				output.flush();
-			} catch (Exception Error) {
-				System.out.println(this.getClass().getCanonicalName() + "::Pipe write error >>" + Error);
+			} catch (Exception e) {
+				System.out.println(this.getClass().getCanonicalName() + "::Problem writing to pipe >>" + e);
 			}
 		}
 	}
@@ -172,8 +172,8 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		try {
 			output.write((int) datum);
 			output.flush();
-		} catch (Exception Error) {
-			System.out.println(this.getName() + " Pipe write error::" + Error);
+		} catch (Exception e) {
+            System.out.println(this.getClass().getCanonicalName() + "::Problem writing to pipe >>" + e);
 		}
 	}
 
@@ -182,7 +182,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 	}
 	private PipedOutputStream getOutputWritePortForConnection(int pipeId){
 		if(pipeId != outputWritePorts.size()){ //Has to be continuously indexed, no sparse arrays plz.
-			System.out.println(this.getName() + " [ERROR] index repeated or not continuous!.");
+            System.out.println(this.getClass().getCanonicalName() + "::Problem getting output port >> Index repeated or not continuous.");
 			return null;
 		}
 		PipedOutputStream outputStream = new PipedOutputStream();
@@ -195,16 +195,16 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		for(PipedInputStream in : inputReadPorts) {
 			try {
 				in.close();
-			} catch (Exception Error) {
-				System.out.println(this.getName() + " ClosePorts error::" + Error);
+			} catch (Exception e) {
+                System.out.println(this.getClass().getCanonicalName() + "::Problem closing ports >>" + e);
 			}
 		}
 		inputReadPorts.clear();
 		for(PipedOutputStream out : outputWritePorts) { //Close input ports
 			try {
 				out.close();
-			} catch (Exception Error) {
-				System.out.println("\n" + this.getName() + " ClosePorts error::" + Error);
+			} catch (Exception e) {
+                System.out.println(this.getClass().getCanonicalName() + "::Problem closing ports >>" + e);
 			}
 		}
 		outputWritePorts.clear();
@@ -217,7 +217,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 	protected boolean EndOfInputStream(int inputFilterId) {
 		FilterFramework inputFilter = inputFilters.get(inputFilterId);
 		if(inputFilter == null){
-			System.out.println("ERROR CHECKING IF INPUT IS ALIVE");
+            System.out.println(this.getClass().getCanonicalName() + "::Problem checking if input is alive.");
 			return false;
 		}
 		return !inputFilter.isAlive();

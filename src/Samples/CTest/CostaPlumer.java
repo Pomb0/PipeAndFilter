@@ -7,6 +7,8 @@ import java.util.List;
 
 public class CostaPlumer {
     public static void main(String argv[]) {
+        
+        // Splitter configuration
         List<List<Integer>> splitMap1 = Arrays.asList(
                 Arrays.asList(0, 2),
                 Arrays.asList(0, 4)
