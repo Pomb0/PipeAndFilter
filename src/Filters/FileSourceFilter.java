@@ -7,9 +7,9 @@ import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class SourceFilter extends ExpandedFilterFramework{
+public class FileSourceFilter extends ExpandedFilterFramework{
     private String dataPath;
-    public SourceFilter(String dataPath) {
+    public FileSourceFilter(String dataPath) {
         this.dataPath = dataPath;
     }
 

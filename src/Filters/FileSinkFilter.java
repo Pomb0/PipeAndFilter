@@ -9,10 +9,10 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class SinkFilter extends ExpandedFilterFramework {
+public class FileSinkFilter extends ExpandedFilterFramework {
     private String dataPath;
 
-    public SinkFilter(String dataPath) {
+    public FileSinkFilter(String dataPath) {
         this.dataPath = dataPath;
         try {
             FileWriter fw = new FileWriter(this.dataPath);

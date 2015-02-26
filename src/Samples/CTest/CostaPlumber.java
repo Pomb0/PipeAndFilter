@@ -15,13 +15,13 @@ public class CostaPlumber {
         );
         
         // Create Filters
-        SourceFilter source = new SourceFilter("data/FlightData.dat");
+        FileSourceFilter source = new FileSourceFilter("data/FlightData.dat");
         FieldSplitterFilter splitter = new FieldSplitterFilter(splitMap1);
         TemperatureFilter temperature = new TemperatureFilter(4);
         HeightFilter height = new HeightFilter(2);
         FieldAggregatorFilter aggregator = new FieldAggregatorFilter();
         WildPointFilter wild = new WildPointFilter(3, 50, 80);
-        SinkFilter toString = new SinkFilter("data/dataTest.dat");
+        FileSinkFilter toString = new FileSinkFilter("data/dataTest.dat");
 
         // Connect Pipes
         toString.Connect(wild);
