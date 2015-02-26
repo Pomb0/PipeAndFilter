@@ -9,12 +9,12 @@ import java.util.LinkedList;
 public class WildPointTakeOutFilter extends ExpandedFilterFramework{
     private int field;  // 3
     private double lastGoodValue;
-    private LinkedList values;
+    private LinkedList<FrameBean> values;
     private boolean isFirst;
 
     public WildPointTakeOutFilter (int field) {
         this.field = field;
-        this.values = new LinkedList();
+        this.values = new LinkedList<>();
         this.isFirst = true;
     }
 
@@ -47,12 +47,14 @@ public class WildPointTakeOutFilter extends ExpandedFilterFramework{
         Double valueToSend;
         FrameBean temp;
 
+        //TODO change the way elements are being removed from the queue.
+
         if(this.isFirst){   valueToSend = tempPressure;   }
         else{    valueToSend = (this.lastGoodValue + tempPressure) / 2;    }
 
 
         while(!this.values.isEmpty()) {
-            temp = (FrameBean) this.values.getFirst();
+            temp = this.values.getFirst();
 
             temp.getAttribute(this.field).setValue(valueToSend);
             writeFrame(temp);

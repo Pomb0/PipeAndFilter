@@ -10,5 +10,7 @@ public class SystemC {
 		 */
 
 		FileSourceFilter fileA = new FileSourceFilter("data/SubSetA.dat");
+		FileSourceFilter fileB = new FileSourceFilter("data/SubSetA.dat");
+
 	}
 }
