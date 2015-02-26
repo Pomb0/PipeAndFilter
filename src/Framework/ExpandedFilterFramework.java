@@ -5,7 +5,9 @@ import Framework.Stream.FrameBean;
 
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 public abstract class ExpandedFilterFramework extends FilterFramework{
@@ -61,7 +63,25 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		}
 	}
 
-	
+	protected void writeFrame(FrameBean frame){
+		for(int i = 0; i<outputWritePorts.size(); i++) writeFrame(i, frame);
+	}
+	protected void writeFrame(int pipeId, FrameBean frame){
+		AttributeBean attrib;
+		byte[] key;
+		byte[] value;
+		int i;
+
+		LinkedHashMap<Integer, AttributeBean> map = frame.getAttributeMap();
+		for(Map.Entry<Integer, AttributeBean> entry : map.entrySet()){
+			attrib = entry.getValue();
+			key = attrib.getKey();
+			value = attrib.getValue();
+			for(i=0;i<AttributeBean.KEYSIZE;i++) WriteFilterOutputPort(pipeId, key[i]);
+			for(i=0;i<AttributeBean.VALUESIZE;i++) WriteFilterOutputPort(pipeId, value[i]);
+		}
+	}
+
 	protected FrameBean readFrame() throws EndOfStreamException{
 		return readFrame(0);
 	}
