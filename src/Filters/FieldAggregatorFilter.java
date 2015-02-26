@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by Jaime on 26/02/2015.
  */
-public class FieldAggregatorFielder extends ExpandedFilterFramework{
+public class FieldAggregatorFilter extends ExpandedFilterFramework{
 	@Override
 	public void filter() throws EndOfStreamException {
 		FrameBean frame;
