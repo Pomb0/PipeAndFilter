@@ -8,40 +8,32 @@ import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class FileSourceFilter extends ExpandedFilterFramework{
+public class SourceFilter extends ExpandedFilterFramework{
     private String dataPath;
 
-    public FileSourceFilter(String dataPath) {
+    public SourceFilter(String dataPath) {
         this.dataPath = dataPath;
     }
 
     public void run() {
-        int bytesRead = 0;
-        int bytesWritten = 0;
         DataInputStream dis = null;
-        byte dataByte = 0;
+        byte dataByte;
 
         try {
             dis = new DataInputStream(new FileInputStream(this.dataPath));
-            System.out.println(this.getName() + "::Source Filter reading file...");
+            System.out.println(this.getName() + "::Reading file...");
 
             while (true) {
                 dataByte = dis.readByte();
-                bytesRead++;
                 WriteFilterOutputPort(dataByte);
-                bytesWritten++;
             }
-        } catch (EOFException eoferr) {
+            
+        } catch (EOFException e) {
             System.out.println(this.getName() + "::End of file reached...");
-
             try {
-                dis.close();
                 ClosePorts();
-                System.out.println(this.getName() + "::Read file complete, bytes read::" + bytesRead + " bytes written: " + bytesWritten);
-            } catch (Exception closeerr) {
-                System.out.println(this.getName() + "::Problem closing input data file::" + closeerr);
-            }
-
+                dis.close();
+            } catch (IOException e1) { e1.printStackTrace(); }
         } catch (IOException iox) {
             System.out.println(this.getName() + "::Problem reading input data file::" + iox);
         }

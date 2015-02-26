@@ -1,23 +1,24 @@
 package Samples.CTest;
 
-import Filters.FileSinkFilter;
-import Filters.FileSourceFilter;
-import Filters.ToStringFilterNew;
+import Filters.SourceFilter;
+import Filters.SinkFilter;
+import Samples.JTest.JaimesTestFilter;
 
 public class CostaPlumer {
     public static void main(String argv[]) {
+        
         // Create Filters
-        FileSourceFilter source = new FileSourceFilter("data/FlightData.dat");
-        ToStringFilterNew toString = new ToStringFilterNew();
-        FileSinkFilter sink = new FileSinkFilter("data/data.dat");
+        SourceFilter source = new SourceFilter("data/FlightData.dat");
+        JaimesTestFilter jaime = new JaimesTestFilter();
+        SinkFilter toString = new SinkFilter("data/dataTest.dat");
 
         // Connect Pipes
-        sink.Connect(toString);
-        toString.Connect(source);
+        toString.Connect(jaime);
+        jaime.Connect(source);
         
         // Start Filters
         source.start();
+        jaime.start();
         toString.start();
-        sink.start();
     }
 }
