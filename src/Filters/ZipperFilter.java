@@ -14,12 +14,13 @@ public class ZipperFilter extends ExpandedFilterFramework{
 	@Override
 	public void filter() throws EndOfStreamException {
 		int i,p;
+		int size = inputReadPorts.size();
 		LinkedList<Integer> pipes = new LinkedList<>();
-		PriorityQueue<FrameBean> queue = new PriorityQueue<FrameBean>(inputReadPorts.size(), new ChronologicalFrameComparator());
+		PriorityQueue<FrameBean> queue = new PriorityQueue<FrameBean>(size, new ChronologicalFrameComparator());
 		for(i=0;i<inputReadPorts.size();i++) pipes.push(i);
 
 		while(!pipes.isEmpty()){
-
+		//TODO Finish this fucking shit :p
 		}
 
 	}
