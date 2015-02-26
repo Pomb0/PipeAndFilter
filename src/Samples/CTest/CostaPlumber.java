@@ -10,7 +10,7 @@ public class CostaPlumber {
         
         // Splitter configuration
         List<List<Integer>> splitMap1 = Arrays.asList(
-                Arrays.asList(2),
+                Arrays.asList(0,1,2,3,4),
                 Arrays.asList(4)
         );
         
@@ -22,9 +22,11 @@ public class CostaPlumber {
         FieldAggregatorFilter aggregator = new FieldAggregatorFilter();
         WildPointFilter wild = new WildPointFilter(3, 50, 80);
         FileSinkFilter toString = new FileSinkFilter("data/dataTest.dat");
+        FileSinkFilter logger = new FileSinkFilter("data/logger.dat");
 
         // Connect Pipes
-        toString.Connect(wild);
+        toString.Connect(wild, 0);
+        logger.Connect(wild, 1);
         wild.Connect(aggregator);
         aggregator.Connect(height);
         aggregator.Connect(temperature);
@@ -40,5 +42,6 @@ public class CostaPlumber {
         aggregator.start();
         wild.start();
         toString.start();
+        logger.start();
     }
 }
