@@ -1,8 +1,8 @@
 package Samples.JTest;
 
 import Filters.FieldSplitterFilter;
-import Filters.FileSinkFilter;
-import Filters.ToStringFilterNew;
+import Filters.SinkFilter;
+import Filters.SinkFilter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +39,7 @@ public class JaimePlumber {
 			Arrays.asList(0,2),
 			Arrays.asList(4)
 		);
-
+/*
 		SourceFilter source = new SourceFilter();
 		FieldSplitterFilter splitter = new FieldSplitterFilter(splitMap1);
 		ToStringFilterNew string1 = new ToStringFilterNew();
@@ -59,7 +59,7 @@ public class JaimePlumber {
 		string2.start();
 		file1.start();
 		file2.start();
-
+*/
 
 	} // main
 
