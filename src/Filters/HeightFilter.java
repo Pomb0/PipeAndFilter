@@ -6,7 +6,6 @@ import Framework.Stream.FrameBean;
 
 public class HeightFilter extends ExpandedFilterFramework {
 
-    @Override
     public void filter() throws EndOfStreamException {
         FrameBean frame = readFrame();
 	    AttributeBean height = frame.getAttribute(2);
