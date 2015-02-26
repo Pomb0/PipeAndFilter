@@ -8,9 +8,16 @@ import java.util.List;
 public class CostaPlumber {
     public static void main(String argv[]) {
         
+        // 00 - Time
+        // 01 - Speed
+        // 02 - Height
+        // 03 - Pressure
+        // 04 - Temperature
+        // 05 - Pitch
+        
         // Splitter configuration
         List<List<Integer>> splitMap1 = Arrays.asList(
-                Arrays.asList(0,1,2,3,4),
+                Arrays.asList(2, 3),
                 Arrays.asList(4)
         );
         

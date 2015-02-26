@@ -5,7 +5,7 @@ import Framework.Stream.AttributeBean;
 import Framework.Stream.FrameBean;
 
 public class WildPointFilter extends ExpandedFilterFramework {
-    private int field;
+    private int field;  // 3
     private double min, max;
 
     /**
@@ -28,13 +28,11 @@ public class WildPointFilter extends ExpandedFilterFramework {
             return;
         }
 
-        AttributeBean wild = new AttributeBean();
-        wild.setKey(6).setValue(0f);
-        frame.setAttribute(wild);
-
         double pressure = attribute.getValueAsDouble();
         if(pressure < min || pressure > max) {
+            AttributeBean wild = new AttributeBean();
             wild.setKey(6).setValue(1f);
+            frame.setAttribute(wild);
             logWildPoint(frame);
         }
         
