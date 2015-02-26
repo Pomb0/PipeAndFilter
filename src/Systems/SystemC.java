@@ -1,7 +1,7 @@
 package Systems;
 
+import Filters.FileSinkFilter;
 import Filters.FileSourceFilter;
-import Filters.RawFileSinkFilter;
 import Filters.ZipperFilter;
 
 public class SystemC {
@@ -18,7 +18,8 @@ public class SystemC {
 		FileSourceFilter fileA = new FileSourceFilter(FilePathA);
 		FileSourceFilter fileB = new FileSourceFilter(FilePathB);
 		ZipperFilter zipper = new ZipperFilter();
-		RawFileSinkFilter sink = new RawFileSinkFilter(FileOutput);
+		//RawFileSinkFilter sink = new RawFileSinkFilter(FileOutput);
+		FileSinkFilter sink = new FileSinkFilter(FileOutput);
 
 		/** Connect Filters.
 		 * FileA ---\
