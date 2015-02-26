@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Jaime on 26/02/2015.
  */
-public class AttributeBean implements Serializable{
+public class AttributeBean implements Serializable, Cloneable{
 	private byte[] key = new byte[4];
 	private byte[] value = new byte[8];
 
