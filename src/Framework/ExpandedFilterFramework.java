@@ -27,7 +27,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 	 */
 	
 	public void filter() throws EndOfStreamException{
-	};
+	}
 
 	@Override
 	public void run(){

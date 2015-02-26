@@ -61,6 +61,9 @@ public class SinkFilter extends ExpandedFilterFramework {
         if (frame.getAttribute(5) != null) {
             frameString.append(String.valueOf(frame.getAttribute(5).getValueAsDouble())).append("\t");
         }
+        if (frame.getAttribute(6) != null) {
+            frameString.append(String.valueOf(frame.getAttribute(6).getValueAsDouble())).append("\t");
+        }
         
         frameString.append("\n");
         return frameString.toString();

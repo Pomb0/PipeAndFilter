@@ -10,20 +10,22 @@ public class CostaPlumber {
         
         // Splitter configuration
         List<List<Integer>> splitMap1 = Arrays.asList(
-                Arrays.asList(0, 2),
-                Arrays.asList(0, 4)
+                Arrays.asList(2),
+                Arrays.asList(4)
         );
         
         // Create Filters
         SourceFilter source = new SourceFilter("data/FlightData.dat");
         FieldSplitterFilter splitter = new FieldSplitterFilter(splitMap1);
-        TemperatureFilter temperature = new TemperatureFilter();
-        HeightFilter height = new HeightFilter();
+        TemperatureFilter temperature = new TemperatureFilter(4);
+        HeightFilter height = new HeightFilter(2);
         FieldAggregatorFilter aggregator = new FieldAggregatorFilter();
+        WildPointFilter wild = new WildPointFilter(3, 50, 80);
         SinkFilter toString = new SinkFilter("data/dataTest.dat");
 
         // Connect Pipes
-        toString.Connect(aggregator);
+        toString.Connect(wild);
+        wild.Connect(aggregator);
         aggregator.Connect(height);
         aggregator.Connect(temperature);
         height.Connect(splitter, 0);
@@ -36,6 +38,7 @@ public class CostaPlumber {
         temperature.start();
         height.start();
         aggregator.start();
+        wild.start();
         toString.start();
     }
 }

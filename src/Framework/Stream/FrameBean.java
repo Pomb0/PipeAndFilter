@@ -3,9 +3,6 @@ package Framework.Stream;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 
-/**
- * Created by Jaime on 26/02/2015.
- */
 public class FrameBean implements Serializable, Cloneable{
 	private LinkedHashMap<Integer, AttributeBean> attributeMap = new LinkedHashMap<>();
 	

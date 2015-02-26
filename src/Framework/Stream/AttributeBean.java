@@ -3,9 +3,6 @@ package Framework.Stream;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 
-/**
- * Created by Jaime on 26/02/2015.
- */
 public class AttributeBean implements Serializable, Cloneable{
 	/**
 	 * Constants to avoid magic values.
