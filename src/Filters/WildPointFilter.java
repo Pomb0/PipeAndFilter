@@ -4,6 +4,11 @@ import Framework.ExpandedFilterFramework;
 import Framework.Stream.AttributeBean;
 import Framework.Stream.FrameBean;
 
+/**
+ * Separates the frames presenting readings outside the min-max range as defined in the constructor
+ * on a given field, into different pipes. Pipe 0 containes the values in range, and pipe 1 contains the
+ * values outside of it.
+ */
 public class WildPointFilter extends ExpandedFilterFramework {
     private int field;  // 3
     private double min, max;

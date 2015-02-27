@@ -7,6 +7,9 @@ import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/**
+ * Reads a file as a byte stream.
+ */
 public class FileSourceFilter extends ExpandedFilterFramework{
     private String dataPath;
     public FileSourceFilter(String dataPath) {

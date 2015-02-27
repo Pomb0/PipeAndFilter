@@ -7,6 +7,10 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Outputs a byte stream to a file.
+ */
+
 public class RawFileSinkFilter extends ExpandedFilterFramework {
     private String dataPath;
     

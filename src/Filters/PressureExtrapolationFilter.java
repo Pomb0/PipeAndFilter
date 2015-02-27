@@ -5,6 +5,13 @@ import Framework.Stream.FrameBean;
 
 import java.util.LinkedList;
 
+/**
+ * Extrapolates the pressure reading on frames containing an attribute with id 6
+ * based on the surrounding frames that do not contain said attribute.
+ *
+ * More details on how this process works on the assginement specification.
+ */
+
 public class PressureExtrapolationFilter extends ExpandedFilterFramework {
     private int field;  // 3
     private double lastGoodValue;

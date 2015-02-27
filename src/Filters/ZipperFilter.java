@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 /**
- * Created by Jaime on 26/02/2015.
+ * Merges two ordered streams keeping order based on attribute 0.
  */
 public class ZipperFilter extends ExpandedFilterFramework{
 	@Override

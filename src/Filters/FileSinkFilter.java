@@ -9,6 +9,10 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/**
+ * Converts a frame to text and writes them to a file acording to the assignment's sepcifications.
+ */
+
 public class FileSinkFilter extends ExpandedFilterFramework {
     private String dataPath;
 

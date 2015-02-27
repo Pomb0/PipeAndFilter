@@ -7,6 +7,10 @@ import Framework.Stream.FrameBean;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+
+/**
+ * Aggregates the inputs into a single frame.
+ */
 public class FieldAggregatorFilter extends ExpandedFilterFramework{
 	@Override
 	public void filter() throws EndOfStreamException {

@@ -63,6 +63,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		}
 	}
 
+	//Writes the frame structure content to the output pi+e
 	protected void writeFrame(FrameBean frame){
 		for(int i = 0; i<outputWritePorts.size(); i++) writeFrame(i, frame);
 	}
@@ -82,6 +83,8 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		}
 	}
 
+	/*Reads a full frame from the input puipe, a frame is considered complete when a new attribute with id 0 is read.
+	 The already read 0 attribute is stored on a buffer to be used on the next read*/
 	protected FrameBean readFrame() throws EndOfStreamException{
 		return readFrame(0);
 	}
@@ -112,6 +115,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		return frame;
 	}
 
+	//Reads 4+8 bytes containing the an id and value pair
 	protected AttributeBean readAttribute() throws EndOfStreamException {
 		return readAttribute(0);
 	}
@@ -127,7 +131,8 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 
 		return attrib;
 	}
-	
+
+	//Overriden to support multiple input pipes
 	@Override
 	protected byte ReadFilterInputPort() throws EndOfStreamException {
 		return ReadFilterInputPort(0);
@@ -156,6 +161,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		}
 	}
 
+	//Overriden to support multiple output pipes
 	@Override
 	protected void WriteFilterOutputPort(byte datum) {
 		for(PipedOutputStream output : outputWritePorts) {
@@ -177,6 +183,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		}
 	}
 
+	//Created to replace direct access to properties...
 	protected PipedOutputStream getOutputWritePortForConnection() {
 		return getOutputWritePortForConnection(0);
 	}
@@ -190,6 +197,7 @@ public abstract class ExpandedFilterFramework extends FilterFramework{
 		return outputStream;
 	}
 
+	//Closes ALL the input and output pipes
 	@Override
 	protected void ClosePorts() { //Close input ports
 		for(PipedInputStream in : inputReadPorts) {

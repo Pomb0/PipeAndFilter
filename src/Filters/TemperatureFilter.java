@@ -4,6 +4,10 @@ import Framework.ExpandedFilterFramework;
 import Framework.Stream.AttributeBean;
 import Framework.Stream.FrameBean;
 
+/**
+ * Converts a given attribute from fahrenheit to celsius.
+ */
+
 public class TemperatureFilter extends ExpandedFilterFramework {
     private int field;  // 4
 

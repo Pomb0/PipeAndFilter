@@ -4,6 +4,10 @@ import Framework.ExpandedFilterFramework;
 import Framework.Stream.AttributeBean;
 import Framework.Stream.FrameBean;
 
+
+/**
+ * Converts a given attribute from feet to meters.
+ */
 public class AltitudeFilter extends ExpandedFilterFramework {
     private int field;  // 2
 
